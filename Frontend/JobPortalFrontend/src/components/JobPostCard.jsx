@@ -1,18 +1,7 @@
 import React from 'react'
 
 const JobPostCard = ({jobPost}) => {
-    // const jobPost = {
-    //     postDesc:
-    //         "Must have good experience in core Java and advanced Java",
-    //     postId:
-    //         1,
-    //     postProfile:
-    //         "Java Developer",
-    //     postTechStack:
-    //         ['Core Java', 'J2EE', 'Spring Boot', 'Hibernate'],
-    //     reqExperience:
-    //         2
-    // }
+
     return (
         <div className="flex flex-col gap-0.5 max-w-full m-auto border-2 border-amber-200 rounded-2xl px-2 py-2 hover:border-amber-400 cursor-pointer">
             <h2 className="text-[1.2rem]">
