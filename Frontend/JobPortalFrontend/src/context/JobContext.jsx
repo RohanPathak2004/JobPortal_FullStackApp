@@ -7,6 +7,7 @@ const JobContextProvider = ({children})=>{
     const [jobPosts,setJobPosts] = useState([]);
     const [error,setError] = useState(null);
     const [loading,setLoading] = useState(false);
+    const [reload,setReload] = useState(false);
     const fetchJobPosts = async ()=>{
         setLoading(true);
         try{
@@ -20,13 +21,14 @@ const JobContextProvider = ({children})=>{
     }
     useEffect(()=>{
         fetchJobPosts();
-    },[])
+    },[reload])
    const contextValues = useMemo(()=>(
        {
            jobPosts,
            loading,
            setLoading,
            error,
+           setReload,
        }
    ),[jobPosts, error, loading]);
 

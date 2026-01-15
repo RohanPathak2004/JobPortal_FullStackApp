@@ -1,4 +1,7 @@
-import React, {useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
+import {JobContext} from "../context/JobContext.jsx";
 
 const AddJob = () => {
     // const jobPost = {
@@ -23,8 +26,10 @@ const AddJob = () => {
         " Angular", "MySQL",
         "Laravel", "Vue.js"]
 
+    const navigate = useNavigate();
+    const {setReload} = useContext(JobContext);
+    const [indexOfSelectedStacks,setIndexOfSelectedStacks] = useState([]);
     const [openDropDown, setOpenDropDown] = useState(false);
-
     const [newJob, setNewJob] = useState({
         postId: null,
         postProfile: "",
@@ -32,46 +37,84 @@ const AddJob = () => {
         reqExperience: 0,
         postTechStack: []
     })
+
+    const handleStackSelection = (idx)=>{
+        if(indexOfSelectedStacks.includes(idx)){
+            setIndexOfSelectedStacks(indexOfSelectedStacks.filter(index=>(index !== idx)));
+            return;
+        }
+        setIndexOfSelectedStacks(prevState => ([...prevState,idx]));
+    }
+    const handleFromSubmission =  (e)=>{
+        e.preventDefault();
+        if(indexOfSelectedStacks.length === 0) return;
+        const selectedStacks = indexOfSelectedStacks.map(i => techStacks[i]);
+        const finalJob = { ...newJob, postTechStack: selectedStacks };
+        setNewJob(finalJob);
+        addJob(newJob)
+    }
+
+    const addJob = async ()=>{
+        try{
+            const res = await axios.post("http://localhost:8080/jobPost",newJob);
+            const data = res.data;
+            setReload(prev=>!prev);
+            navigate("/");
+        }catch (e){
+            console.log(e.message);
+        }
+    }
+
+
     return (
         <div className="min-w-full min-h-full ">
-            <form className="min-h-1/2 max-h-3/4 max-w-[40%] border flex flex-col px-2 py-2 gap-2 rounded-2xl m-auto my-10">
+            <form
+                onSubmit={(e)=>handleFromSubmission(e)}
+                className="min-h-1/2 max-h-3/4 max-w-[40%] border border-amber-400 flex flex-col px-2 py-4 gap-2 rounded-2xl m-auto my-10">
                 <div className="w-full px-2">
                     <label className="text-[1.2rem] font-medium block ml-1">Job Profile</label>
                     <input required
+                           onChange={(e) => setNewJob(prevState => ({...prevState, postProfile: e.target.value}))}
                            className="w-full px-2 py-2 rounded-2xl border-2 border-blue-400 focus:outline-pink-400"
                            type="text" placeholder="Job Profile"/>
                 </div>
                 <div className="w-full px-2">
                     <label className="text-[1.2rem] font-medium block ml-1">Job Description</label>
                     <textarea
+                        onChange={(e) => (setNewJob(prevState => ({...prevState, postDesc: e.target.value})))}
                         className="w-full max-h-1/6 px-2 py-2 rounded-2xl border-2 border-blue-400 focus:outline-pink-400"
                         required/>
                 </div>
                 <div className="w-full px-2">
                     <label className="text-[1.2rem] font-medium block ml-1">Experience Required:</label>
-                    <input className="w-full px-2 py-2 rounded-2xl border-2 border-blue-400 focus:outline-pink-400"
-                           required type="number" min="0" max="30"/>
+                    <input
+                        onChange={(e) => (setNewJob(prevState => ({...prevState, reqExperience: e.target.value})))}
+                        className="w-full px-2 py-2 rounded-2xl border-2 border-blue-400 focus:outline-pink-400"
+                        required type="number" min="0" max="30"/>
                 </div>
-                <div className="w-full px-2 flex flex-col gap-2 justify-center ">
+                <div className="w-full px-2 py-2 flex flex-col  justify-center ">
                     <button type="button" onClick={() => setOpenDropDown(!openDropDown)}
-                            className="bg-blue-500 text-white font-medium px-10 py-2 rounded-2xl  ">Choose Skills
+                            className="bg-blue-500 text-white font-medium px-10 py-2 rounded-2xl text-[1.2rem]  ">{indexOfSelectedStacks.length ===0?"Choose Tech Stack":"Selected"}
                     </button>
-                    <div className="w-full flex justify-center items-center relative">
-                    {openDropDown &&
-                        <div className="flex flex-col absolute bg-white w-full max-h-40 border-2 px-1   overflow-y-scroll top-0 "> {
-                            techStacks.map((techStack, idx) => (
-                                <label className="border-b" key={idx}>
-                                    <input type={"checkbox"}/>
-                                    <span className="text-[1.2rem]">{techStack}</span>
-                                </label>
-                            ))}
-                        </div>
-                    }
+                    <div className="w-full flex justify-center items-center relative transition-all">
+                        {openDropDown &&
+                            <div
+                                className="flex flex-col absolute bg-white w-full max-h-40 border-2 px-1   overflow-y-scroll top-0 "> {
+                                techStacks.map((techStack, idx) => (
+                                    <label className="border-b" key={idx}>
+                                        <input onClick={()=>handleStackSelection(idx)} defaultChecked={indexOfSelectedStacks.includes(idx)} type={"checkbox"}/>
+                                        <span className="text-[1.2rem]">{techStack}</span>
+                                    </label>
+                                ))}
+                            </div>
+                        }
                     </div>
 
                 </div>
-                <div className="w-full flex justify-center items-center">
-                    <button type={"submit"} className="w-[75%]  py-2  bg-blue-500 text-white font-medium rounded-2xl">Upload</button>
+                <div className="w-full py-2  flex justify-center px-2 items-center">
+                    <button type={"submit"}
+                            className="w-full  py-2  bg-blue-500 text-white font-medium rounded-2xl ">Add
+                    </button>
                 </div>
             </form>
         </div>
