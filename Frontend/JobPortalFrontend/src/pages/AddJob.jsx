@@ -30,6 +30,7 @@ const AddJob = () => {
     const {setReload} = useContext(JobContext);
     const [indexOfSelectedStacks,setIndexOfSelectedStacks] = useState([]);
     const [openDropDown, setOpenDropDown] = useState(false);
+    const [finalJobPost,setFinalJobPost] = useState({});
     const [newJob, setNewJob] = useState({
         postId: null,
         postProfile: "",
@@ -51,9 +52,12 @@ const AddJob = () => {
         const selectedStacks = indexOfSelectedStacks.map(i => techStacks[i]);
         const finalJob = { ...newJob, postTechStack: selectedStacks };
         setNewJob(finalJob);
-        addJob(newJob)
+        setFinalJobPost((finalJob));
     }
-
+    useEffect(()=>{
+        if(JSON.stringify(finalJobPost) === JSON.stringify({})) return;
+        addJob(finalJobPost);
+    },[finalJobPost])
     const addJob = async ()=>{
         try{
             const res = await axios.post("http://localhost:8080/jobPost",newJob);
@@ -63,6 +67,7 @@ const AddJob = () => {
         }catch (e){
             console.log(e.message);
         }
+
     }
 
 
@@ -70,7 +75,7 @@ const AddJob = () => {
         <div className="min-w-full min-h-full ">
             <form
                 onSubmit={(e)=>handleFromSubmission(e)}
-                className="min-h-1/2 max-h-3/4 max-w-[40%] border border-amber-400 flex flex-col px-2 py-4 gap-2 rounded-2xl m-auto my-10">
+                className="min-h-1/2 max-h-3/4 max-w-[40%] border  flex flex-col px-2 py-4 gap-2 rounded-2xl m-auto my-10">
                 <div className="w-full px-2">
                     <label className="text-[1.2rem] font-medium block ml-1">Job Profile</label>
                     <input required
@@ -81,6 +86,7 @@ const AddJob = () => {
                 <div className="w-full px-2">
                     <label className="text-[1.2rem] font-medium block ml-1">Job Description</label>
                     <textarea
+                        placeholder={"Job Description"}
                         onChange={(e) => (setNewJob(prevState => ({...prevState, postDesc: e.target.value})))}
                         className="w-full max-h-1/6 px-2 py-2 rounded-2xl border-2 border-blue-400 focus:outline-pink-400"
                         required/>
@@ -88,13 +94,14 @@ const AddJob = () => {
                 <div className="w-full px-2">
                     <label className="text-[1.2rem] font-medium block ml-1">Experience Required:</label>
                     <input
+                        placeholder={"Experience required in Years"}
                         onChange={(e) => (setNewJob(prevState => ({...prevState, reqExperience: e.target.value})))}
                         className="w-full px-2 py-2 rounded-2xl border-2 border-blue-400 focus:outline-pink-400"
                         required type="number" min="0" max="30"/>
                 </div>
                 <div className="w-full px-2 py-2 flex flex-col  justify-center ">
                     <button type="button" onClick={() => setOpenDropDown(!openDropDown)}
-                            className="bg-blue-500 text-white font-medium px-10 py-2 rounded-2xl text-[1.2rem]  ">{indexOfSelectedStacks.length ===0?"Choose Tech Stack":"Selected"}
+                            className="bg-blue-400 text-white font-medium px-10 py-2 rounded-2xl text-[1.2rem]  ">{indexOfSelectedStacks.length ===0?"Choose Tech Stack":"Selected"}
                     </button>
                     <div className="w-full flex justify-center items-center relative transition-all">
                         {openDropDown &&
@@ -113,7 +120,7 @@ const AddJob = () => {
                 </div>
                 <div className="w-full py-2  flex justify-center px-2 items-center">
                     <button type={"submit"}
-                            className="w-full  py-2  bg-blue-500 text-white font-medium rounded-2xl ">Add
+                            className="w-full  py-2  bg-orange-400 text-white font-medium rounded-2xl ">Add
                     </button>
                 </div>
             </form>
