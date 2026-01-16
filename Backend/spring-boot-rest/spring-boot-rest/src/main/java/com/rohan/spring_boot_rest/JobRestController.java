@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController //(controller+response body)
 @CrossOrigin(origins = "http://localhost:5173")
@@ -37,11 +38,11 @@ public class JobRestController {
     }
 
     @DeleteMapping("jobPost/{postId}")
-    public void deleteJob(@PathVariable("postId") int id){
-        service.deleteJob(id);
+    public void deleteJob(@PathVariable("postId") Long id){
+        service.deleteJob(Math.toIntExact(id));
     }
 
-    @GetMapping("/load")
+    @GetMapping("load")
     public String load(){
         service.load();
         return "success";

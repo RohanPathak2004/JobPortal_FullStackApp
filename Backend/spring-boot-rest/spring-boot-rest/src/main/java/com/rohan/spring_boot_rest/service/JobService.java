@@ -6,10 +6,7 @@ import com.rohan.spring_boot_rest.repo.JobRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class JobService {
@@ -18,8 +15,12 @@ public class JobService {
 
     @Autowired
     private JobRepo repo;
-
+    private Integer generateRandomId(){
+        return Math.abs((int)(Math.random()*1000));
+    }
     public void addJob(JobPost jobpost){
+        Integer randomId = generateRandomId();
+        jobpost.setPostId(randomId);
         repo.save(jobpost);
     }
 

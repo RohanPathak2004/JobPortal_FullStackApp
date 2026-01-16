@@ -4,9 +4,12 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.IdGeneratorType;
 
+import java.util.ArrayList;
 import java.util.List;
-
+import java.util.UUID;
 
 
 @Data
@@ -15,10 +18,7 @@ import java.util.List;
 @Entity
 public class JobPost {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "postIdGenerator")
-    @SequenceGenerator(name = "postIdGenerator", allocationSize = 1)  // good!
-    @Column(name = "post_id")
-    private Integer postId;  // Integer is fine
+    private Integer postId;
     private String postProfile;
     private String postDesc;
     private int reqExperience;
