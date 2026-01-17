@@ -4,33 +4,13 @@ import {useNavigate} from "react-router-dom";
 import {JobContext} from "../context/JobContext.jsx";
 
 const AddJob = () => {
-    // const jobPost = {
-    //     postDesc:
-    //         "Must have good experience in core Java and advanced Java",
-    //     postId:
-    //         1,
-    //     postProfile:
-    //         "Java Developer",
-    //     postTechStack:
-    //         ['Core Java', 'J2EE', 'Spring Boot', 'Hibernate'],
-    //     reqExperience:
-    //         2
-    // }
-    const techStacks = ["React", "Spring Boot", "PostgresSQL",
-        "MongoDB", "Express", "Node.js",
-        "Next.js", "Tailwind",
-        "Django", "Networking", "Cisco", "Routing",
-        "Switching", "iOS Development",
-        "Android Development",
-        "Mobile App",
-        " Angular", "MySQL",
-        "Laravel", "Vue.js"]
+
 
     const navigate = useNavigate();
-    const {setReload} = useContext(JobContext);
-    const [indexOfSelectedStacks,setIndexOfSelectedStacks] = useState([]);
+    const {setReload, techStacks} = useContext(JobContext);
+    const [indexOfSelectedStacks, setIndexOfSelectedStacks] = useState([]);
     const [openDropDown, setOpenDropDown] = useState(false);
-    const [finalJobPost,setFinalJobPost] = useState({});
+    const [finalJobPost, setFinalJobPost] = useState({});
     const [newJob, setNewJob] = useState({
         postId: null,
         postProfile: "",
@@ -39,42 +19,44 @@ const AddJob = () => {
         postTechStack: []
     })
 
-    const handleStackSelection = (idx)=>{
-        if(indexOfSelectedStacks.includes(idx)){
-            setIndexOfSelectedStacks(indexOfSelectedStacks.filter(index=>(index !== idx)));
+
+    const handleStackSelection = (idx) => {
+        if (indexOfSelectedStacks.includes(idx)) {
+            setIndexOfSelectedStacks(indexOfSelectedStacks.filter(index => (index !== idx)));
             return;
         }
-        setIndexOfSelectedStacks(prevState => ([...prevState,idx]));
+        setIndexOfSelectedStacks(prevState => ([...prevState, idx]));
     }
-    const handleFromSubmission =  (e)=>{
+    const handleFromSubmission = (e) => {
         e.preventDefault();
-        if(indexOfSelectedStacks.length === 0) return;
+        if (indexOfSelectedStacks.length === 0) return;
         const selectedStacks = indexOfSelectedStacks.map(i => techStacks[i]);
-        const finalJob = { ...newJob, postTechStack: selectedStacks };
+        const finalJob = {...newJob, postTechStack: selectedStacks};
         setNewJob(finalJob);
         setFinalJobPost((finalJob));
     }
-    useEffect(()=>{
-        if(JSON.stringify(finalJobPost) === JSON.stringify({})) return;
-        addJob(finalJobPost);
-    },[finalJobPost])
-    const addJob = async ()=>{
-        try{
-            const res = await axios.post("http://localhost:8080/jobPost",newJob);
+    const addJob = async () => {
+        try {
+            const res = await axios.post("http://localhost:8080/jobPost", newJob);
             const data = res.data;
-            setReload(prev=>!prev);
+            setReload(prev => !prev);
             navigate("/");
-        }catch (e){
+        } catch (e) {
             console.log(e.message);
         }
-
     }
+
+
+    useEffect(() => {
+        if (JSON.stringify(finalJobPost) === JSON.stringify({})) return;
+        addJob(finalJobPost);
+    }, [finalJobPost])
 
 
     return (
         <div className="min-w-full min-h-full ">
             <form
-                onSubmit={(e)=>handleFromSubmission(e)}
+                onSubmit={(e) => handleFromSubmission(e)}
                 className="min-h-1/2 max-h-3/4 max-w-[40%] border  flex flex-col px-2 py-4 gap-2 rounded-2xl m-auto my-10">
                 <div className="w-full px-2">
                     <label className="text-[1.2rem] font-medium block ml-1">Job Profile</label>
@@ -101,7 +83,7 @@ const AddJob = () => {
                 </div>
                 <div className="w-full px-2 py-2 flex flex-col  justify-center ">
                     <button type="button" onClick={() => setOpenDropDown(!openDropDown)}
-                            className="bg-blue-400 text-white font-medium px-10 py-2 rounded-2xl text-[1.2rem]  ">{indexOfSelectedStacks.length ===0?"Choose Tech Stack":"Selected"}
+                            className="bg-blue-400 text-white font-medium px-10 py-2 rounded-2xl text-[1.2rem] cursor-pointer  ">{indexOfSelectedStacks.length === 0 ? "Choose Tech Stack" : "Selected"}
                     </button>
                     <div className="w-full flex justify-center items-center relative transition-all">
                         {openDropDown &&
@@ -109,7 +91,8 @@ const AddJob = () => {
                                 className="flex flex-col absolute bg-white w-full max-h-40 border-2 px-1   overflow-y-scroll top-0 "> {
                                 techStacks.map((techStack, idx) => (
                                     <label className="border-b" key={idx}>
-                                        <input onClick={()=>handleStackSelection(idx)} defaultChecked={indexOfSelectedStacks.includes(idx)} type={"checkbox"}/>
+                                        <input onClick={() => handleStackSelection(idx)}
+                                               defaultChecked={indexOfSelectedStacks.includes(idx)} type={"checkbox"}/>
                                         <span className="text-[1.2rem]">{techStack}</span>
                                     </label>
                                 ))}
@@ -120,7 +103,7 @@ const AddJob = () => {
                 </div>
                 <div className="w-full py-2  flex justify-center px-2 items-center">
                     <button type={"submit"}
-                            className="w-full  py-2  bg-orange-400 text-white font-medium rounded-2xl ">Add
+                            className="w-full  py-2  bg-orange-400 text-white font-medium rounded-2xl cursor-pointer ">Add
                     </button>
                 </div>
             </form>
