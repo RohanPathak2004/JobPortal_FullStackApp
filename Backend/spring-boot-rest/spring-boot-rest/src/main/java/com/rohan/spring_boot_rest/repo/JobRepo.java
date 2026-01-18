@@ -3,6 +3,8 @@ package com.rohan.spring_boot_rest.repo;
 
 import com.rohan.spring_boot_rest.model.JobPost;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -13,8 +15,11 @@ import java.util.List;
 public interface JobRepo extends JpaRepository<JobPost,Integer> {
 
 
+    @Query("SELECT j FROM JobPost j WHERE " +
+            "LOWER(j.postProfile) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            "LOWER(j.postDesc) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    List<JobPost> findByPostProfileContainingOrPostDescContaining(@Param("keyword") String keyword);
 
-    List<JobPost> findByPostProfileContainingOrPostDescContaining(String profile,String postDescription);
 
 
 
