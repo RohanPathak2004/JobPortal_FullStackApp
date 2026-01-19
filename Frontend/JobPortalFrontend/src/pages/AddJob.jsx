@@ -85,6 +85,17 @@ const AddJob = () => {
                     <button type="button" onClick={() => setOpenDropDown(!openDropDown)}
                             className="bg-blue-400 text-white font-medium px-10 py-2 rounded-2xl text-[1.2rem] cursor-pointer  ">{indexOfSelectedStacks.length === 0 ? "Choose Tech Stack" : "Selected"}
                     </button>
+                    <div className="flex flex-wrap mt-2.5 items-center gap-0.5">
+                        {indexOfSelectedStacks.length > 0 ? indexOfSelectedStacks.map((index, idx) => (
+                            <li
+                                key={idx}
+                                className="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium"
+                            >
+                                {techStacks[index]
+                                }
+                            </li>
+                        )) : null}
+                    </div>
                     <div className="w-full flex justify-center items-center relative transition-all">
                         {openDropDown &&
                             <div

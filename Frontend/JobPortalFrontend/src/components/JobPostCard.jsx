@@ -13,8 +13,8 @@ const JobPostCard = ({jobPost}) => {
             <h2 className="text-[1.2rem]">
                 <span><span className="font-bold">Job Description:</span> {jobPost.postDesc}</span>
             </h2>
-            <h2 className="text-[1.2rem]">
-                <span><span className="font-bold">Experience:</span> {jobPost.reqExperience}</span>
+            <h2 className="text-[1.2rem] flex flex-wrap">
+                <span className="inline-flex"><span className="font-bold">Experience:</span> {jobPost.reqExperience}</span>
             </h2>
             <h2 className="text-2xl font-bold mb-2">
                 <span>Skills:</span>

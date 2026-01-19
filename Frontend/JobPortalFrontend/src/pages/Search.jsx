@@ -36,13 +36,17 @@ const Search = () => {
                     <button className={"bg-orange-200 px-2 py-1 cursor-pointer rounded-2xl"} onClick={()=>handleSearching(searchedValue)}><SearchIcon/></button>
                 </label>
             </div>
+            {
+                searchedPosts.length===0?
+                    <h1  className="w-full  text-3xl font-medium text-center mt-20">
+                        Search job posts through typing keyword.
+                    </h1>:null
+            }
             <div>
                 <div className="flex flex-col gap-4 items-center mt-20 overflow-y-auto mb-5">
                     {searchedPosts.map((job,idx)=>(
-                        <div className="max-w-3/4 min-w-[60%]">
-
+                        <div className="w-3/4">
                                 <JobPostCard jobPost={job} />
-
                         </div>
                     ))}
                 </div>

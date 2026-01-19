@@ -19,7 +19,7 @@ const Home = () => {
             </div>}
             <div className="flex flex-col gap-4 items-center mt-20 overflow-y-auto mb-5">
                 {post.map((job,idx)=>(
-                    <div className="max-w-3/4 min-w-[60%]">
+                    <div className="w-3/4">
                         <Link to={`/jobPost/${job.postId}`} state={job}>
                         <JobPostCard jobPost={job} />
                         </Link>
