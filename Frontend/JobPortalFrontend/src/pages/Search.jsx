@@ -4,14 +4,22 @@ import {JobContext} from "../context/JobContext.jsx";
 import {Link} from "react-router-dom";
 import JobPostCard from "../components/JobPostCard.jsx";
 import axios from "axios";
+import {useAuthContext} from "../context/AuthContext.jsx";
 
 const Search = () => {
     const {techStacks} = useContext(JobContext);
     const [searchedValue,setSearchedValue] = useState("");
     const [searchedPosts,setSearchPosts] = useState([]);
+
+    const {token} = useAuthContext();
+
     const handleSearching = async (keyword) =>{
         try{
-            const res = await axios.get(`http://localhost:8080/jobPosts/keyword/${keyword}`);
+            const res = await axios.get(`http://localhost:8080/jobPosts/keyword/${keyword}`,{
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
             const data = res.data;
             setSearchPosts(data);
         }catch (e){
@@ -23,7 +31,7 @@ const Search = () => {
     },[searchedValue])
     return (
         <div>
-            <div className="min-w-3/4 mt-2.5 relative">
+            <div className="min-w-3/4 z-10 mt-5 relative">
                 <label className="min-w-3/4 flex justify-center items-center sticky">
                     <input onChange={(e)=>setSearchedValue(e.target.value)} list={"stackSuggestion"} id="search" className="px-3 py-2 w-[50%] mr-1 rounded-2xl  focus:outline-pink-400 border-2" placeholder="Search by Keyword"/>
                     <datalist id={"stackSuggestion"}>
@@ -43,7 +51,7 @@ const Search = () => {
                     </h1>:null
             }
             <div>
-                <div className="flex flex-col gap-4 items-center mt-20 overflow-y-auto mb-5">
+                <div className="flex flex-col gap-4 items-center mt-20 overflow-y-auto mb-5 transition-all">
                     {searchedPosts.map((job,idx)=>(
                         <div className="w-3/4">
                                 <JobPostCard jobPost={job} />

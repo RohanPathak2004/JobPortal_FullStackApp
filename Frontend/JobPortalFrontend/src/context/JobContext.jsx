@@ -1,5 +1,7 @@
-import {createContext, useEffect, useMemo, useState} from "react";
+import {createContext, useContext, useEffect, useMemo, useState} from "react";
 import axios from "axios";
+import {AuthContext} from "./AuthContext.jsx";
+import {useNavigate} from "react-router-dom";
 
 export const JobContext = createContext({});
 
@@ -18,14 +20,24 @@ const JobContextProvider = ({children}) => {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [reload, setReload] = useState(false);
+    const navigate = useNavigate();
+    const {token} = useContext(AuthContext);
 
 
     const fetchJobPosts = async () => {
         setLoading(true);
         try {
-            const response = await axios.get("http://localhost:8080/jobPosts");
-            const data = response.data;
-            setJobPosts(data);
+            const response = await axios.get("http://localhost:8080/jobPosts",{
+                headers:{
+                    'Authorization': `Bearer ${token?token:null}`
+                }
+            }).then(res=>setJobPosts(res.data))
+                .catch(err=>{
+                    if (err.response.status === 401) {
+                        navigate("/login");
+                    }
+                });
+
         } catch (error) {
             setError(error.toString());
         }
@@ -35,19 +47,20 @@ const JobContextProvider = ({children}) => {
 
     useEffect(() => {
         fetchJobPosts();
-    }, [reload])
+    }, [reload, token,])
 
 
-    const contextValues = useMemo(() => (
+    const contextValues =
         {
             jobPosts,
             loading,
+            setJobPosts,
             setLoading,
             error,
             setReload,
             techStacks,
         }
-    ), [jobPosts, error, loading]);
+
 
 
     return (

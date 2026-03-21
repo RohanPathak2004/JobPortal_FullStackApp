@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useState} from 'react'
 import {JobContext} from "../context/JobContext.jsx";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
+import {useAuthContext} from "../context/AuthContext.jsx";
 
 const UpdateAndDeleteJobPost = () => {
 
@@ -20,7 +21,7 @@ const UpdateAndDeleteJobPost = () => {
         reqExperience: 0,
         postTechStack: []
     })
-
+    const {token} = useAuthContext();
 
 
 
@@ -54,7 +55,11 @@ const UpdateAndDeleteJobPost = () => {
     }
     const updateJob = async () => {
         try {
-            const res = await axios.put("http://localhost:8080/jobPost", newJob);
+            const res = await axios.put("http://localhost:8080/jobPost", newJob,{
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             const data = res.data;
             setReload(prev => !prev);
             navigate("/");
@@ -65,7 +70,11 @@ const UpdateAndDeleteJobPost = () => {
     const handleDeleteJobPost = async () => {
         alert("Are You sure, You want to Delete this Post");
         try {
-            const res = await axios.delete(`http://localhost:8080/jobPost/${postId}`);
+            const res = await axios.delete(`http://localhost:8080/jobPost/${postId}`,{
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             const data = res.data;
             setReload(prev => !prev);
             navigate("/");
@@ -73,9 +82,6 @@ const UpdateAndDeleteJobPost = () => {
             console.log(e.message);
         }
     }
-
-
-
 
 
     useEffect(() => {
@@ -88,83 +94,121 @@ const UpdateAndDeleteJobPost = () => {
     }, [finalJobPost])
 
 
-
     return (
-        <div className="min-w-full min-h-full ">
+        <div className="w-full min-h-screen bg-gray-50 p-4">
+            {/* Go Back Link - Adjusted for better flow */}
+            <div onClick={()=>navigate(-1)} className="mb-6 md:ml-20 cursor-pointer text-black text-xl hover:text-blue-600 transition-colors">
+                {"← Go back"}
+            </div>
+
             <form
                 onSubmit={(e) => handleFromSubmission(e)}
-                className="min-h-1/2 max-h-3/4 max-w-[40%] border  flex flex-col px-2 py-4 gap-2 rounded-2xl m-auto my-10">
+                className="w-full sm:max-w-lg md:max-w-xl lg:max-w-2xl border bg-white flex flex-col px-4 py-6 gap-4 rounded-2xl shadow-sm mx-auto my-5"
+            >
                 <div className="w-full px-2">
-                    <h1 className="text-[1.5rem] font-bold text-center underline underline-offset-1 text-red-500">ID: {postId}</h1>
+                    <h1 className="text-xl md:text-2xl font-bold text-center underline underline-offset-4 text-red-500">
+                        ID: {postId}
+                    </h1>
                 </div>
+
+                {/* Job Profile */}
                 <div className="w-full px-2">
-                    <label className="text-[1.2rem] font-medium block ml-1">Job Profile</label>
-                    <input required
-                           value={newJob.postProfile}
-                           onChange={(e) => setNewJob(prevState => ({...prevState, postProfile: e.target.value}))}
-                           className="w-full px-2 py-2 rounded-2xl border-2 border-blue-400 focus:outline-pink-400"
-                           type="text" placeholder="Job Profile"/>
+                    <label className="text-lg font-medium block mb-1">Job Profile</label>
+                    <input
+                        required
+                        value={newJob.postProfile}
+                        onChange={(e) => setNewJob(prevState => ({...prevState, postProfile: e.target.value}))}
+                        className="w-full px-4 py-2 rounded-xl border-2 border-blue-400 focus:outline-pink-400"
+                        type="text"
+                        placeholder="Job Profile"
+                    />
                 </div>
+
+                {/* Job Description */}
                 <div className="w-full px-2">
-                    <label className="text-[1.2rem] font-medium block ml-1">Job Description</label>
+                    <label className="text-lg font-medium block mb-1">Job Description</label>
                     <textarea
                         value={newJob.postDesc}
-                        placeholder={"Job Description"}
+                        placeholder="Job Description"
                         onChange={(e) => (setNewJob(prevState => ({...prevState, postDesc: e.target.value})))}
-                        className="w-full max-h-1/6 px-2 py-2 rounded-2xl border-2 border-blue-400 focus:outline-pink-400"
-                        required/>
+                        className="w-full min-h-[120px] px-4 py-2 rounded-xl border-2 border-blue-400 focus:outline-pink-400"
+                        required
+                    />
                 </div>
+
+                {/* Experience */}
                 <div className="w-full px-2">
-                    <label className="text-[1.2rem] font-medium block ml-1">Experience Required:</label>
+                    <label className="text-lg font-medium block mb-1">Experience Required (Years)</label>
                     <input
                         value={newJob.reqExperience}
-                        placeholder={"Experience required in Years"}
+                        placeholder="e.g. 3"
                         onChange={(e) => (setNewJob(prevState => ({...prevState, reqExperience: e.target.value})))}
-                        className="w-full px-2 py-2 rounded-2xl border-2 border-blue-400 focus:outline-pink-400"
-                        required type="number" min="0" max="30"/>
+                        className="w-full px-4 py-2 rounded-xl border-2 border-blue-400 focus:outline-pink-400"
+                        required
+                        type="number"
+                        min="0"
+                        max="30"
+                    />
                 </div>
-                <div className="w-full px-2 py-2 flex flex-col  justify-center ">
-                    <button type="button" onClick={() => setOpenDropDown(!openDropDown)}
-                            className="bg-blue-400 text-white font-medium px-10 py-2 rounded-2xl text-[1.2rem] cursor-pointer  ">{indexOfSelectedStacks.length === 0 ? "Choose Tech Stack" : "Selected"}
+
+                {/* Tech Stack Dropdown Section */}
+                <div className="w-full px-2 py-2 flex flex-col">
+                    <button
+                        type="button"
+                        onClick={() => setOpenDropDown(!openDropDown)}
+                        className="bg-blue-400 hover:bg-blue-500 text-white font-medium px-6 py-2 rounded-xl text-lg transition-colors"
+                    >
+                        {indexOfSelectedStacks.length === 0 ? "Choose Tech Stack" : `Selected (${indexOfSelectedStacks.length})`}
                     </button>
-                    <div className="flex flex-wrap mt-2.5 items-center gap-0.5">
-                        {indexOfSelectedStacks.length > 0 ? indexOfSelectedStacks.map((index, idx) => (
-                            <li
+
+                    <div className="flex flex-wrap mt-3 items-center gap-2">
+                        {indexOfSelectedStacks.map((index, idx) => (
+                            <span
                                 key={idx}
-                                className="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium"
+                                className="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs md:text-sm font-medium"
                             >
-                                {techStacks[index]
-                                }
-                            </li>
-                        )) : null}
+                        {techStacks[index]}
+                    </span>
+                        ))}
                     </div>
-                    <div className="w-full flex justify-center items-center relative transition-all">
-                        {openDropDown &&
-                            <div
-                                className="flex flex-col absolute bg-white w-full max-h-40 border-2 px-1   overflow-y-scroll top-0 "> {
-                                techStacks.map((techStack, idx) => (
-                                    <label className="border-b" key={idx}>
-                                        <input onClick={() => handleStackSelection(idx)}
-                                               defaultChecked={indexOfSelectedStacks.includes(idx)} type={"checkbox"}/>
-                                        <span className="text-[1.2rem]">{techStack}</span>
+
+                    <div className="w-full relative mt-1">
+                        {openDropDown && (
+                            <div className="absolute z-20 bg-white w-full max-h-48 border-2 rounded-xl shadow-lg overflow-y-auto top-0 left-0">
+                                {techStacks.map((techStack, idx) => (
+                                    <label className="flex items-center gap-3 p-2 border-b last:border-none hover:bg-gray-50 cursor-pointer" key={idx}>
+                                        <input
+                                            onClick={() => handleStackSelection(idx)}
+                                            defaultChecked={indexOfSelectedStacks.includes(idx)}
+                                            type="checkbox"
+                                            className="w-4 h-4"
+                                        />
+                                        <span className="text-base">{techStack}</span>
                                     </label>
                                 ))}
                             </div>
-                        }
+                        )}
                     </div>
-
                 </div>
-                <div className="w-full py-2  flex justify-evenly px-2 items-center">
-                    <button type={"submit"}
-                            className="px-14 py-2 border cursor-pointer   bg-orange-400 text-white font-medium rounded-2xl ">Update
+
+                {/* Action Buttons */}
+                <div className="w-full py-4 flex flex-col sm:flex-row gap-3 justify-center items-center px-2">
+                    <button
+                        type="submit"
+                        className="w-full sm:w-auto px-10 py-3 bg-orange-400 hover:bg-orange-500 text-white font-bold rounded-xl transition-all shadow-md"
+                    >
+                        Update Post
                     </button>
-                    <button type={"button"} onClick={() => handleDeleteJobPost(postId)}
-                            className="px-14  cursor-pointer bg-red-500 text-white font-medium rounded-2xl py-2">
-                        Delete
+                    <button
+                        type="button"
+                        onClick={() => handleDeleteJobPost(postId)}
+                        className="w-full sm:w-auto px-10 py-3 bg-red-500 hover:bg-red-600 text-white font-bold rounded-xl transition-all shadow-md"
+                    >
+                        Delete Post
                     </button>
                 </div>
             </form>
         </div>
-    )
+)
 }
 export default UpdateAndDeleteJobPost
