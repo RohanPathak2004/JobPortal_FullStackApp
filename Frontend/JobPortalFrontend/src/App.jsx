@@ -18,6 +18,7 @@ import AdminDashboard from "./pages/AdminDashboard.jsx";
 import UserDashboard from "./pages/UserDashboard.jsx";
 import JobPostedByAdmin from "./pages/JobPostedByAdmin.jsx";
 import Applications from "./pages/Applications.jsx";
+import ApplicationReview from "./pages/ApplicationReview.jsx";
 
 const RecruiterRoute = () => {
     const {user} = useAuthContext();
@@ -49,6 +50,7 @@ function App() {
                         </Route>
                         <Route path={'candidate'} element={<UserDashboard/>}/>
                     </Route>
+                    <Route path={'/review/application/:applicationId'} element={<ApplicationReview/>} />
                 </Routes>
             </JobContextProvider>
         </AuthContextProvider>
