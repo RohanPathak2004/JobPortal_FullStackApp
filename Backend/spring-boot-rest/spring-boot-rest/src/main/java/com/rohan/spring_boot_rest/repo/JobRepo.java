@@ -20,7 +20,7 @@ public interface JobRepo extends JpaRepository<JobPost,Integer> {
             "LOWER(j.postDesc) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<JobPost> findByPostProfileContainingOrPostDescContaining(@Param("keyword") String keyword);
 
-
+    List<JobPost> findByEmail(String email);
 
 
 //    List<JobPost> jobs = new ArrayList<>(Arrays.asList(

@@ -1,4 +1,7 @@
 package com.rohan.spring_boot_rest.dto;
 
-public record UserDto() {
+public record UserResponseDto(
+        String email,
+        String authority
+) {
 }

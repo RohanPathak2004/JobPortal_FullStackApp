@@ -13,17 +13,17 @@ import java.util.UUID;
 
 
 @Data
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 public class JobPost {
     @Id
     private Integer postId;
     private String postProfile;
     private String postDesc;
     private int reqExperience;
-
     private List<String> postTechStack;
+    private String email;
 
 
 
