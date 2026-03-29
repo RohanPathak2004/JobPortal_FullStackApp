@@ -55,7 +55,7 @@ const ApplicationCard = ({application}) => {
 
             {/* Left Section: Info */}
             <div className='flex flex-col space-y-1'>
-                <div className='flex items-center gap-2'>
+                <div className='flex flex-col justify-start md:flex-row  md:items-center md:gap-2'>
                     <span className='text-sm font-semibold text-gray-500 uppercase tracking-wider'>Candidate</span>
                     <span className='text-lg font-medium text-gray-900'>{application.email}</span>
                 </div>

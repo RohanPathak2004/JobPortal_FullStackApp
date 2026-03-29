@@ -27,8 +27,8 @@ const JobPostedByAdmin = () => {
         <div className={'flex flex-col gap-4'}>
             {
                 posts?.map((post,)=>(
-                    <div className={'flex justify-between items-center'} key={post.id}>
-                        <div className={'w-full mx-3'}>
+                    <div className={'flex flex-col items-center gap-1 md:flex-row md:justify-between md:items-center'} key={post.id}>
+                        <div className={'w-full mx-3 '}>
                             <JobPostCard  jobPost={post}/>
                         </div>
 

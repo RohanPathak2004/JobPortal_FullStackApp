@@ -30,10 +30,10 @@ const Search = () => {
         handleSearching(searchedValue);
     },[searchedValue])
     return (
-        <div>
-            <div className="min-w-3/4 z-10 mt-5 relative">
-                <label className="min-w-3/4 flex justify-center items-center sticky">
-                    <input onChange={(e)=>setSearchedValue(e.target.value)} list={"stackSuggestion"} id="search" className="px-3 py-2 w-[50%] mr-1 rounded-2xl  focus:outline-pink-400 border-2" placeholder="Search by Keyword"/>
+        <div className='flex flex-col justify-center'>
+            <div className="w-[95%] z-10 mt-5 relative">
+                <label className="min-w-3/4 flex justify-center  items-center sticky">
+                    <input onChange={(e)=>setSearchedValue(e.target.value)} list={"stackSuggestion"} id="search" className="px-3 py-1 w-[50%] rounded-md border-zinc-400 bg-zinc-100  focus:outline-zinc-400 border-2" placeholder="Search by Keyword"/>
                     <datalist id={"stackSuggestion"}>
                         {
                             techStacks.map((stack,_)=>(
@@ -41,7 +41,7 @@ const Search = () => {
                             ))
                         }
                     </datalist>
-                    <button className={"bg-orange-200 px-2 py-1 cursor-pointer rounded-2xl"} onClick={()=>handleSearching(searchedValue)}><SearchIcon/></button>
+                    <button className={" px-2 py-1 cursor-pointer rounded-md"} onClick={()=>handleSearching(searchedValue)}><SearchIcon/></button>
                 </label>
             </div>
             {

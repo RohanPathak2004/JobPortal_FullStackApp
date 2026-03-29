@@ -9,33 +9,33 @@ const NavigationBar = () => {
 
     return (
 
-        <nav className="flex flex-col md:flex md:flex-row  md:justify-evenly min-w-[80%]  px-4 py-2 mx-auto sticky top-0 backdrop-blur-md bg-white/10 border border-white/20  shadow-xl">
+        <nav className="flex flex-col md:flex md:flex-row  md:justify-between w-full  px-20 py-1 bg-white  sticky top-0 ">
             <div className={'flex items-center justify-center'}>
                 <Link to="/">
-                <span className="text-gray-800 text-5xl font-extrabold cursor-pointer">Job</span>
-                <span className="text-green-900 text-5xl font-extrabold cursor-pointer">Portal</span>
+                <span className="text-gray-800 text-3xl font-extrabold cursor-pointer">Job</span>
+                <span className="text-green-900 text-3xl font-extrabold cursor-pointer">Portal</span>
                 </Link>
             </div>
-            <ul className="flex justify-evenly min-w-[30%] text-[1.2rem] font-medium items-center ">
-                <li className="hover:text-red-500 hover:underline transition-all hover:underline-offset-2 cursor-pointer">
+            <ul className="flex gap-4 text-sm font-medium text-zinc-500 text-[1.1rem] items-center ">
+                <li className="hover:text-zinc-900 transition duration-300 ">
                     <Link to="/">
                     Home
                     </Link>
                 </li>
                 {user?.role==='RECRUITER'?<li
-                    className="hover:text-red-500 hover:underline transition-all hover:underline-offset-2 cursor-pointer">
+                    className="hover:text-zinc-900 transition duration-300 ">
                     <Link to="/addJob">
                         Add Job
                     </Link>
                 </li>:null}
-                <li className="hover:text-red-500 hover:underline transition-all hover:underline-offset-2 cursor-pointer">
+                <li className="hover:text-zinc-900 transition duration-300 ">
                     <Link to="/search">
                     Search
                     </Link>
                 </li>
-                <li >
+                <li className='cursor-pointer' >
                     {
-                        token?<Account/>:<Link className="hover:text-red-500 hover:underline transition-all hover:underline-offset-2 cursor-pointer" to={'/login'}>
+                        token?<Account/>:<Link className="hover:text-zinc-900 transition duration-300" to={'/login'}>
                             Login/Register
                         </Link>
                     }

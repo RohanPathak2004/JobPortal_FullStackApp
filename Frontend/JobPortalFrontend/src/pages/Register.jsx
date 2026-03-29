@@ -52,26 +52,26 @@ console.log(userCredentials);
 
     return (
         <div className={'w-full flex justify-center items-center py-5'}>
-            <form onSubmit={(e)=>handleSignUp(e)} className='md:mt-5 w-[80vw] md:w-[30vw] md:gap-6 md:px-8 md:py-10 flex flex-col gap-8 shadow-taupe-600 shadow-2xl px-4 py-5'>
+            <form onSubmit={(e)=>handleSignUp(e)} className='md:mt-5 w-[80%] md:w-[45%] md:gap-4 md:px-8 md:py-10 flex flex-col gap-8 shadow-sm shadow-zinc-400 px-4 py-5'>
                 {/* Email Field */}
-                <div className='w-full flex flex-col justify-center gap-2'>
-                    <label htmlFor={'email'} className='text-[1.2rem] md:text-2xl font-medium'>Email</label>
+                <div className='w-full flex flex-col justify-center gap-1'>
+                    <label htmlFor={'email'} className='text-[1.2rem] text-zinc-900  font-medium '>Email</label>
                     <input
                         placeholder='Enter Email'
                         value={userCredentials.email}
                         onChange={(e) => setUserCredentials({ ...userCredentials, email: e.target.value })}
-                        className='px-1 py-2 focus:outline-green-600 border-2 border-gray-200 rounded-lg'
+                        className=' px-2 py-1 focus:outline-zinc-400 bg-gray-100  border border-gray-200 rounded-md'
                         required
                         type={'email'}
                     />
                 </div>
 
                 {/* Password Field */}
-                <div className='w-full flex flex-col gap-3'>
-                    <label htmlFor={'password'} className='text-[1.2rem] md:text-2xl font-medium'>Password</label>
+                <div className='w-full flex flex-col gap-2'>
+                    <label htmlFor={'password'} className='text-[1.2rem]  font-medium'>Password</label>
                     <input
                         placeholder="password"
-                        className={`${noMatch ? 'focus:outline-red-500' : 'focus:outline-green-500'} border-2 border-gray-200 rounded-lg px-1 py-2`}
+                        className={`${noMatch ? 'focus:outline-red-300' : 'focus:outline-green-200'} bg-gray-100 border border-gray-200 rounded-lg px-2 py-1`}
                         type={seePassword ? 'text' : 'password'}
                         id="password"
                         required
@@ -83,10 +83,10 @@ console.log(userCredentials);
 
                 {/* Confirm Password Field */}
                 <div className='w-full flex flex-col gap-3'>
-                    <label htmlFor={'confirm_password'} className='text-[1.2rem] md:text-2xl font-medium'>Confirm Password</label>
+                    <label htmlFor={'confirm_password'} className='text-[1.2rem] font-medium'>Confirm Password</label>
                     <input
                         placeholder="Confirm password"
-                        className={`${(password !== confirmPassword) ? 'focus:outline-red-500' : 'focus:outline-green-500'} border-2 border-gray-200 rounded-lg px-1 py-2`}
+                        className={`${(password !== confirmPassword) ? 'focus:outline-red-300' : 'focus:outline-green-300'} bg-gray-100 border border-gray-200 rounded-lg px-2 py-1`}
                         type={seePassword ? 'text' : 'password'}
                         required
                         value={confirmPassword}
@@ -116,16 +116,16 @@ console.log(userCredentials);
                 )}
 
                 {/* Authority Select */}
-                <div className='w-full flex flex-col gap-3'>
-                    <label className='text-[1.2rem] md:text-2xl font-medium'>Register Yourself as</label>
-                    <select required value={userCredentials.authority} onChange={(e) => setUserCredentials({ ...userCredentials, authority: e.target.value })} className='md:w-1/2 px-4 py-2 border border-gray-200 rounded-lg focus:outline-green-600'>
+                <div className='w-full flex justify-start gap-3 '>
+                    <label className='text-[1.2rem] text-zinc-900  font-medium'>Register Yourself as</label>
+                    <select required value={userCredentials.authority} onChange={(e) => setUserCredentials({ ...userCredentials, authority: e.target.value })} className='md:w-1/2  text-sm px-4 py-1 bg-zinc-100 border border-gray-200 rounded-lg focus:outline-lime-200'>
                         <option value={'CANDIDATE'}>CANDIDATE</option>
                         <option value={'RECRUITER'}>RECRUITER</option>
                     </select>
                 </div>
 
                 <div className='w-full flex justify-center items-center'>
-                    <button type={'submit'} className='cursor-pointer bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 text-center md:w-2/6 md:text-2xl rounded-3xl'>Sign up</button>
+                    <button type={'submit'} className='cursor-pointer bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 text-center md:w-2/6 md:text-[1.2rem] rounded-lg'>Sign up</button>
                 </div>
             </form>
         </div>

@@ -10,7 +10,7 @@ const DashboardLayout = ()=>{
         if(user&&user.role==='ROLE_RECRUITER'){
             console.log("render")
             navigate('/dashboard/admin');
-        }
+        }else navigate('/dashboard/candidate');
     },[user])
     return (
         <div>

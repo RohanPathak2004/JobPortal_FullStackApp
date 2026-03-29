@@ -21,12 +21,12 @@ const Home = () => {
 
 
     return (
-        <div className="w-full">
-            <div className="min-w-[80vw]">
+        <div className="w-full py-4">
+            <div >
                 {loading && <div>
                     <h2 className="flex items-center justify-center">loading....</h2>
                 </div>}
-                <div className="flex flex-col gap-4 items-center mt-20 overflow-y-auto mb-5">
+                <div className="flex flex-col gap-4 items-center py-4 overflow-y-auto mb-5">
                     {jobPosts.map((job, idx) => (
                         <div className="w-3/4">
                             <Link to={`/jobPost/${job.postId}`} state={job}>
