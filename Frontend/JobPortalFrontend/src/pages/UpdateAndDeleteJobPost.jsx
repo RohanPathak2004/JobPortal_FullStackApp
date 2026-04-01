@@ -118,7 +118,7 @@ const UpdateAndDeleteJobPost = () => {
                         required
                         value={newJob.postProfile}
                         onChange={(e) => setNewJob(prevState => ({...prevState, postProfile: e.target.value}))}
-                        className="w-full px-4 py-2 rounded-xl border-2 border-blue-400 focus:outline-pink-400"
+                        className="w-full mt-1 px-4 py-2 rounded-md bg-zinc-100 border border-zinc-200 focus:border-zinc-300  focus:outline-none transition-all"
                         type="text"
                         placeholder="Job Profile"
                     />
@@ -131,7 +131,7 @@ const UpdateAndDeleteJobPost = () => {
                         value={newJob.postDesc}
                         placeholder="Job Description"
                         onChange={(e) => (setNewJob(prevState => ({...prevState, postDesc: e.target.value})))}
-                        className="w-full min-h-[120px] px-4 py-2 rounded-xl border-2 border-blue-400 focus:outline-pink-400"
+                        className="w-full mt-1 px-4 py-2 rounded-md bg-zinc-100 border border-zinc-200 focus:border-zinc-300 focus:outline-none transition-all"
                         required
                     />
                 </div>
@@ -143,7 +143,7 @@ const UpdateAndDeleteJobPost = () => {
                         value={newJob.reqExperience}
                         placeholder="e.g. 3"
                         onChange={(e) => (setNewJob(prevState => ({...prevState, reqExperience: e.target.value})))}
-                        className="w-full px-4 py-2 rounded-xl border-2 border-blue-400 focus:outline-pink-400"
+                        className="w-full mt-1 px-4 py-2 rounded-md bg-zinc-100 border border-zinc-200 focus:border-zinc-300  focus:outline-none transition-all"
                         required
                         type="number"
                         min="0"

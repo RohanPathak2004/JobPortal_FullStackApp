@@ -28,7 +28,7 @@ const JobPost = () => {
         }
     }, [postId]);
 
-    console.log(open)
+    // console.log(open)
     return (
         <div className='bg-taupe-50 min-h-screen w-full flex justify-center items-start  py-10 '>
             <div

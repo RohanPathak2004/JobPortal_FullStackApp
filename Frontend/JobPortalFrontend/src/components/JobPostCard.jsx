@@ -10,14 +10,14 @@ const JobPostCard = ({jobPost}) => {
                     {jobPost.postId}
                 </p>
             </div>
-            <div className={ "border-b border-zinc-200 "}/>
+            <div className={ "border border-zinc-100 "}/>
             <div className="text-[1.2rem] flex items-center justify-start gap-1">
                 <h2 className='font-medium'>Job Profile:</h2>
                 <p >
                     {jobPost.postProfile}
                 </p>
             </div>
-            <div className={ "gap-1 border-b border-zinc-200 "}/>
+            <div className={ "gap-1 border border-zinc-100 "}/>
 
             <div className="text-[1.2rem] flex flex-col  justify-start gap-1">
                 <h2 className='font-medium'>Job Description:</h2>
@@ -25,7 +25,7 @@ const JobPostCard = ({jobPost}) => {
                     {jobPost.postDesc}
                 </p>
             </div>
-            <div className={ "gap-1 border-b border-zinc-200 "}/>
+            <div className={ "gap-1 border border-zinc-100 "}/>
 
             <div className="text-[1.2rem] flex items-center justify-start gap-1">
                 <h2 className='font-medium'>Required Experience:</h2>
@@ -33,7 +33,7 @@ const JobPostCard = ({jobPost}) => {
                     {jobPost.reqExperience}
                 </p>
             </div>
-            <div className={ "gap-1 border-b border-zinc-200 "}/>
+            <div className={ "gap-1 border border-zinc-100 "}/>
 
             <h2 className="text-[1.2rem] font-medium mb-2">
                 <span>Skills:</span>

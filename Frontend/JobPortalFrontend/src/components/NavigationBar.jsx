@@ -9,7 +9,7 @@ const NavigationBar = () => {
 
     return (
 
-        <nav className="flex flex-col md:flex md:flex-row  md:justify-between w-full  px-20 py-1 bg-white  sticky top-0 ">
+        <nav className="flex flex-col md:flex md:flex-row  md:justify-between w-full  px-20 py-1 bg-white  sticky top-0 border border-b-zinc-300 ">
             <div className={'flex items-center justify-center'}>
                 <Link to="/">
                 <span className="text-gray-800 text-3xl font-extrabold cursor-pointer">Job</span>

@@ -10,7 +10,7 @@ const UserDashboard = () => {
     },[user,token])
 
     return (
-        <div className='py-8 bg-slate-200 px-4 rounded-lg '>
+        <div className='py-8 border border-zinc-300 px-4  rounded-lg '>
             <h1 className='text-3xl font-medium'>Welcome, {username}</h1>
             <div className={'mt-4'}>
                 <div>Track Applications</div>

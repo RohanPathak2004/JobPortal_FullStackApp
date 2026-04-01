@@ -16,7 +16,7 @@ const Home = () => {
 
     const navigate = useNavigate();
 
-    console.log(jobPosts);
+    // console.log(jobPosts);
 
 
 

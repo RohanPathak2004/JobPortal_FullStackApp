@@ -48,7 +48,7 @@ const  Register = ()=>{
         }
     }
 
-console.log(userCredentials);
+// console.log(userCredentials);
 
     return (
         <div className={'w-full flex justify-center items-center py-5'}>

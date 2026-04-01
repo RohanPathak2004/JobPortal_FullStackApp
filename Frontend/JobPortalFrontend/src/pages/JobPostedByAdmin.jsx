@@ -5,7 +5,7 @@ import JobPostCard from "../components/JobPostCard.jsx";
 import {Link} from "react-router-dom";
 
 const JobPostedByAdmin = () => {
-    console.log('JobPostedByAdmin');
+    // console.log('JobPostedByAdmin');
     const [posts, setPosts] = useState([]);
     const {token} = useAuthContext();
     const fetchAllPosts = async () => {
@@ -15,7 +15,7 @@ const JobPostedByAdmin = () => {
             }
         }).then(res => setPosts(res.data))
     }
-    console.log(posts);
+    // console.log(posts);
     useEffect(() => {
         try{
             fetchAllPosts();

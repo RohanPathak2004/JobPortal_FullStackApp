@@ -54,7 +54,7 @@ const AddJob = () => {
     };
 
     return (
-        <div className="w-full min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <div className="w-full  bg-gray-50 flex items-center justify-center p-4">
             <form
                 onSubmit={handleFormSubmission}
                 className="w-full max-w-md md:max-w-lg lg:max-w-xl bg-white border border-gray-200 flex flex-col p-6 gap-4 rounded-3xl shadow-lg"
