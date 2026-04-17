@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ApplicationsService {
@@ -51,5 +52,17 @@ public class ApplicationsService {
             }
         }
         return applications;
+    }
+
+    @Transactional
+    public List<Applications> getAllApplicationsByCandidate(Principal principal) {
+        String email = principal.getName();
+        return applicationsRepo.findBYEmail(email);
+    }
+
+    @Transactional
+    public Applications getApplicationById(Integer appId) {
+       Optional<Applications> app = applicationsRepo.findById(appId);
+        return app.orElse(new Applications());
     }
 }

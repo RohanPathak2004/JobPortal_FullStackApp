@@ -6,7 +6,6 @@ import com.rohan.spring_boot_rest.service.ApplicationsService;
 import com.rohan.spring_boot_rest.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -87,6 +86,18 @@ public class JobRestController {
     @PreAuthorize("hasRole('RECRUITER')")
     public List<Applications> getAllApplications(Principal principal){
         return applicationsService.getAllApplications(principal);
+    }
+
+    @GetMapping("/application/{appId}")
+    @PreAuthorize("hasRole('RECRUITER')")
+    public Applications getApplicationById(@PathVariable("appId") Integer appId){
+        return applicationsService.getApplicationById(appId);
+    }
+
+    @GetMapping("/candidate/applications")
+    @PreAuthorize("hasRole('CANDIDATE')")
+    public List<Applications> getAllApplicationsByCandidate(Principal principal){
+        return applicationsService.getAllApplicationsByCandidate(principal);
     }
 
 }
