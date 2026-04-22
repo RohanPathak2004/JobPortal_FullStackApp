@@ -1,6 +1,7 @@
 package com.rohan.spring_boot_rest.service;
 
 
+import com.rohan.spring_boot_rest.dto.ResumeFileDto;
 import com.rohan.spring_boot_rest.model.Applications;
 import com.rohan.spring_boot_rest.model.JobPost;
 import com.rohan.spring_boot_rest.repo.ApplicationsRepo;
@@ -64,5 +65,11 @@ public class ApplicationsService {
     public Applications getApplicationById(Integer appId) {
        Optional<Applications> app = applicationsRepo.findById(appId);
         return app.orElse(new Applications());
+    }
+
+    @Transactional
+    public ResumeFileDto getResumeFile(Integer appId){
+        return applicationsRepo.findResumeFileById(appId);
+
     }
 }

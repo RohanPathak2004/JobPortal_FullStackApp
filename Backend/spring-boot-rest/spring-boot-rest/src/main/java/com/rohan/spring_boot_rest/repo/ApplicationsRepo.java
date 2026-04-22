@@ -1,5 +1,6 @@
 package com.rohan.spring_boot_rest.repo;
 
+import com.rohan.spring_boot_rest.dto.ResumeFileDto;
 import com.rohan.spring_boot_rest.model.Applications;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,4 +19,7 @@ public interface ApplicationsRepo extends JpaRepository<Applications,Integer> {
     List<Applications> findBYEmail(@Param("email") String email);
 
 
+    @Query("SELECT new com.rohan.spring_boot_rest.dto.ResumeFileDto(a.resumeName, a.resumeType, a.resumeFile) " +
+            "FROM Applications a WHERE a.id = :appId")
+    ResumeFileDto findResumeFileById(@Param("appId") Integer appId);
 }

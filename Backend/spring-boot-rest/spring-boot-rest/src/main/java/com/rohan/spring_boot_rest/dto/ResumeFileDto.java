@@ -1,4 +1,11 @@
 package com.rohan.spring_boot_rest.dto;
 
-public record ResumeFileDto() {
+import jakarta.persistence.Lob;
+
+public record ResumeFileDto(
+        String resumeName,
+        String resumeType,
+        @Lob
+        byte[] resumeFile
+) {
 }

@@ -1,10 +1,12 @@
 package com.rohan.spring_boot_rest.controller;
 
+import com.rohan.spring_boot_rest.dto.ResumeFileDto;
 import com.rohan.spring_boot_rest.model.Applications;
 import com.rohan.spring_boot_rest.model.JobPost;
 import com.rohan.spring_boot_rest.service.ApplicationsService;
 import com.rohan.spring_boot_rest.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -98,6 +100,12 @@ public class JobRestController {
     @PreAuthorize("hasRole('CANDIDATE')")
     public List<Applications> getAllApplicationsByCandidate(Principal principal){
         return applicationsService.getAllApplicationsByCandidate(principal);
+    }
+
+    @GetMapping("/resume/{appId}")
+    @PreAuthorize("hasRole('RECRUITER')")
+    public ResumeFileDto getResumeFile(@PathVariable Integer appId){
+        return applicationsService.getResumeFile(appId);
     }
 
 }
