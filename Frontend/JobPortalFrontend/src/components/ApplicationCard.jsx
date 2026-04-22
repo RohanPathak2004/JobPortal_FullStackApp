@@ -69,7 +69,7 @@ const ApplicationCard = ({application}) => {
 
             {/* Right Section: Action */}
             <div className='flex items-center'>
-                <Link to={`/review/application/${application.id}`} state={application}>
+                <Link to={`/review/application/${application.id}`} state={application.id}>
                     <button
                         className='w-full  md:w-auto px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg shadow-sm transition-colors duration-200'>
                         Review Application
