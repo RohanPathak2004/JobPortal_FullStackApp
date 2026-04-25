@@ -1,6 +1,8 @@
 package com.rohan.spring_boot_rest.service;
 
 
+import com.rohan.spring_boot_rest.dto.ApplicationDto;
+import com.rohan.spring_boot_rest.dto.ApplicationForRecruiterDto;
 import com.rohan.spring_boot_rest.dto.ResumeFileDto;
 import com.rohan.spring_boot_rest.model.Applications;
 import com.rohan.spring_boot_rest.model.JobPost;
@@ -41,22 +43,13 @@ public class ApplicationsService {
     }
 
     @Transactional
-    public List<Applications> getAllApplications(Principal principal) {
+    public List<ApplicationForRecruiterDto> getAllApplications(String email) {
 
-        String email = principal.getName();
-        List<JobPost> jobs = jobRepo.findByEmail(email);
-        List<Applications> applications = new ArrayList<>();
-        for(JobPost post:jobs){
-            Applications app = applicationsRepo.findByJobId(post.getPostId());
-            if(app!=null){
-                applications.add(app);
-            }
-        }
-        return applications;
+        return applicationsRepo.getAllApplications(email);
     }
 
     @Transactional
-    public List<Applications> getAllApplicationsByCandidate(Principal principal) {
+    public List<ApplicationDto> getAllApplicationsByCandidate(Principal principal) {
         String email = principal.getName();
         return applicationsRepo.findBYEmail(email);
     }

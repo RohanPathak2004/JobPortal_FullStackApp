@@ -1,5 +1,7 @@
 package com.rohan.spring_boot_rest.controller;
 
+import com.rohan.spring_boot_rest.dto.ApplicationDto;
+import com.rohan.spring_boot_rest.dto.ApplicationForRecruiterDto;
 import com.rohan.spring_boot_rest.dto.ResumeFileDto;
 import com.rohan.spring_boot_rest.model.Applications;
 import com.rohan.spring_boot_rest.model.JobPost;
@@ -86,8 +88,9 @@ public class JobRestController {
 
     @GetMapping("/applications")
     @PreAuthorize("hasRole('RECRUITER')")
-    public List<Applications> getAllApplications(Principal principal){
-        return applicationsService.getAllApplications(principal);
+    public List<ApplicationForRecruiterDto> getAllApplications(Principal principal){
+        String email = principal.getName();
+        return applicationsService.getAllApplications(email);
     }
 
     @GetMapping("/application/{appId}")
@@ -98,7 +101,7 @@ public class JobRestController {
 
     @GetMapping("/candidate/applications")
     @PreAuthorize("hasRole('CANDIDATE')")
-    public List<Applications> getAllApplicationsByCandidate(Principal principal){
+    public List<ApplicationDto> getAllApplicationsByCandidate(Principal principal){
         return applicationsService.getAllApplicationsByCandidate(principal);
     }
 
