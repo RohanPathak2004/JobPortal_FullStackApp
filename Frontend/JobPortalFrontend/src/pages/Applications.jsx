@@ -23,7 +23,7 @@ const Applications = () => {
     return (
         <div>
             {applications.length>0?applications.map((application,idx)=>(
-                <li className='list-decimal'>
+                <li className={'list-none'}>
                     <ApplicationCard application={application} />
                 </li>
             )):

@@ -10,7 +10,7 @@ import axios from "axios";
 
 const ApplicationReview = () => {
     const {token} = useAuthContext();
-    const[data,setData] = useState();
+    const [data, setData] = useState();
     const [file, setFile] = useState({
         filename: "",
         fileData: "",
@@ -19,24 +19,24 @@ const ApplicationReview = () => {
     const location = useLocation();
     const appId = location.state;
     console.log(data);
-    const fetchApplication = async ()=>{
-        const res = await axios.get(`http://localhost:8080/application/${appId}`,{
-            headers:{
+    const fetchApplication = async () => {
+        const res = await axios.get(`http://localhost:8080/application/${appId}`, {
+            headers: {
                 Authorization: `Bearer ${token}`
             }
-        }).then((res)=> {
+        }).then((res) => {
             setData(res.data)
         })
-            .catch((err)=>console.log(err));
+            .catch((err) => console.log(err));
 
     }
 
-    const fetchResumeFile = async ()=>{
-        const res  = await axios.get(`http://localhost:8080/resume/${appId}`,{
-            headers:{
+    const fetchResumeFile = async () => {
+        await axios.get(`http://localhost:8080/resume/${appId}`, {
+            headers: {
                 Authorization: `Bearer ${token}`
             }
-        }).then((res)=>{
+        }).then((res) => {
             setFile({
                 filename: res.data.resumeName,
                 filetype: res.data.resumeType,
@@ -48,36 +48,39 @@ const ApplicationReview = () => {
     useEffect(() => {
         fetchApplication();
         fetchResumeFile();
-    }, [appId,location.key])
+    }, [appId, location.key])
 
     console.log(data);
-    if(data===undefined) return <h1>no response</h1>
+    if (data === undefined) return <h1>no response</h1>
     return (
         <div className={' flex flex-col py-4 gap-4   md:gap-8'}>
-            <div className='flex flex-col gap-2 items-start md:flex-row  md:justify-between md:items-center'>
+            <div className='flex flex-col gap-2 items-start md:flex-row  md:justify-between md:items-start'>
                 <div className={'px-2 rounded-2xl hover:bg-neutral-100  transition-all'}>
-                <BackButtonWebPage/>
+                    <BackButtonWebPage/>
                 </div>
-                <div>
-                    <ApplicationStatus/>
-                </div>
+
             </div>
             <div className='  py-2 flex flex-col gap-8'>
-                <div className={'p-1 flex flex-col gap-2'}>
-                    <h2 className='font-bold text-xl'>
-                        Candidate Information
-                    </h2>
-                    <div className='flex gap-1 item-center px-1'>
-                        <div className='text-xl'>Name:</div>
-                        <div className='italic text-xl font-medium'>{data?.name}</div>
+                <div className={'flex flex-col gap-2 md:grid md:grid-cols-2 '}>
+                    <div className={'p-1 flex flex-col gap-2'}>
+                        <h2 className='font-bold text-[1.5rem]'>
+                            Candidate Information
+                        </h2>
+                        <div className='flex gap-1 item-center px-1'>
+                            <div className='text-xl'>Name:</div>
+                            <div className='italic text-xl font-medium'>{data?.name}</div>
+                        </div>
+                        <div className='flex gap-1 item-center px-1'>
+                            <div className='text-xl'>Email:</div>
+                            <div className='italic text-xl font-medium'>{data?.email}</div>
+                        </div>
                     </div>
-                    <div className='flex gap-1 item-center px-1'>
-                        <div className='text-xl'>Email:</div>
-                        <div className='italic text-xl font-medium'>{data?.email}</div>
+                    <div className={'md:flex md:justify-end items-start px-1'}>
+                        <ApplicationStatus/>
                     </div>
                 </div>
                 <div className=''>
-                    <h2 className='font-bold text-xl p-2'>Job Details:</h2>
+                    <h2 className='font-bold text-[1.5rem] p-2'>Job Details:</h2>
                     <JobPostCard jobPost={data?.job}/>
                 </div>
             </div>

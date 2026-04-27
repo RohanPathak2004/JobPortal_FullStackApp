@@ -51,7 +51,7 @@ const ApplicationCard = ({application}) => {
 
     return (
         <div
-            className='w-full p-6 mb-4 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col md:flex-row md:justify-between md:items-center gap-4'>
+            className='w-full p-6 mb-4 bg-white border border-gray-300 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col md:flex-row md:justify-between md:items-center gap-4'>
 
             {/* Left Section: Info */}
             <div className='flex flex-col space-y-1'>
@@ -62,7 +62,7 @@ const ApplicationCard = ({application}) => {
                 <div className='flex items-center gap-2'>
                     <span className='text-sm text-gray-600'>Job ID:</span>
                     <span className='px-2 py-0.5  text-gray-800 text-sm font-mono rounded-md border border-gray-200'>
-                {application.job.postId}
+                {application.jobPost.postId}
             </span>
                 </div>
             </div>

@@ -8,17 +8,42 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 const ResumePreview = ({file}) => {
     console.log(file)
     const [fileUrl,setFileUrl] = useState('');
+    const [loading, setLoading] = useState(true);
+    const loadFile =async ()=>{
+        setLoading(true);
+        const byteCharacter = atob(file.fileData);
+        const byteNumbers = new Array(byteCharacter.length);
+        for(let i = 0; i<byteNumbers.length; i++){
+            byteNumbers[i] = byteCharacter.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+
+        const blob = new Blob([byteArray], { type: 'application/pdf' });
+
+        const url = URL.createObjectURL(blob);
+
+        setFileUrl(url);
+        setLoading(false)
+    }
     useEffect(() => {
-        setFileUrl(file.fileData);
-    },[])
-    console.log(file)
+        loadFile();
+    },[file])
     return (
-        <div
-            className=" w-full flex flex-col justify-center items-center  h-full bg-gray-100 overflow-y-auto overflow-x-auto">
-
-            <iframe title={file.filename} src={`data:application/pdf;base64,${file.fileData}`} width="100%" height="100%">
-
-            </iframe>
+        <div className="w-full flex flex-col justify-center items-center h-full bg-gray-100 overflow-hidden">
+            {loading ? (
+                <div className="flex flex-col items-center gap-2">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                    <p className="text-gray-500">Loading Resume...</p>
+                </div>
+            ) : fileUrl ? (
+                <iframe
+                    title="Resume"
+                    src={fileUrl}
+                    className="w-full h-full border-none"
+                />
+            ) : (
+                <div className="text-gray-500">No resume data found.</div>
+            )}
         </div>
     )
 }
