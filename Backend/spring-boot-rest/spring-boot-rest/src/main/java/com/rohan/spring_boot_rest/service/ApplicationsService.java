@@ -28,12 +28,18 @@ public class ApplicationsService {
     @Autowired
     private ApplicationsRepo applicationsRepo;
 
+    @Autowired
+    private StatusMailSender mailSender;
+
+
+
     public void apply(String name, String email, int jobId, MultipartFile resumeFile) throws IOException {
         Applications apply = new Applications();
         JobPost job = jobRepo.findById(jobId).orElse(new JobPost());
         apply.setName(name);
         apply.setEmail(email);
         apply.setJob(job);
+        apply.setStatus("review");
         apply.setResumeName(resumeFile.getOriginalFilename());
         apply.setResumeType(resumeFile.getContentType());
         apply.setResumeFile(resumeFile.getBytes());
@@ -42,27 +48,39 @@ public class ApplicationsService {
 
     }
 
-    @Transactional
+
     public List<ApplicationForRecruiterDto> getAllApplications(String email) {
 
         return applicationsRepo.getAllApplications(email);
     }
 
-    @Transactional
     public List<ApplicationDto> getAllApplicationsByCandidate(Principal principal) {
         String email = principal.getName();
-        return applicationsRepo.findBYEmail(email);
+        return applicationsRepo.findByEmail(email);
+    }
+
+    public ApplicationDto getApplicationById(Integer appId) {
+        ApplicationDto apd = applicationsRepo.findApplicationById(appId);
+        if (apd != null) return apd;
+        return new ApplicationDto("not found", "not found", null,null);
     }
 
     @Transactional
-    public Applications getApplicationById(Integer appId) {
-       Optional<Applications> app = applicationsRepo.findById(appId);
-        return app.orElse(new Applications());
-    }
-
-    @Transactional
-    public ResumeFileDto getResumeFile(Integer appId){
+    public ResumeFileDto getResumeFile(Integer appId) {
         return applicationsRepo.findResumeFileById(appId);
 
+    }
+
+    public String updateApplicationStatus(int id, String status) throws Exception {
+        Optional<Applications> optionalApplication = applicationsRepo.findById(id);
+        if (optionalApplication.isPresent()) {
+            Applications app = optionalApplication.get();
+            app.setStatus(status);
+            String s = app.getStatus();
+            applicationsRepo.save(app);
+            ApplicationDto application = applicationsRepo.findApplicationById(id);
+            mailSender.sendStatusMail(application.email(),application.name(),application.status(),application.job().getPostProfile());
+            return s;
+        } else throw new Exception("User Not Found");
     }
 }

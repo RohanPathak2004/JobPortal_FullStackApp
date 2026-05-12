@@ -8,13 +8,12 @@ const AdminDashboard = () => {
     // Sync state with the current URL path so the UI stays correct on refresh
     const [panel,setPanel] = useState('posts')
 
-
     return (
         <div className="min-h-screen bg-gray-50/50 p-4 md:p-8">
             <div className="max-w-6xl mx-auto">
                 {/* Header Section */}
-                <header className="mb-8">
-                    <h1 className="text-2xl font-bold text-gray-900">Admin Management</h1>
+                <header className="mb-8 ">
+                    <h1 className="text-4xl font-bold text-gray-900 mb-2">Admin Management</h1>
                     <p className="text-gray-500 text-sm">Monitor your postings and review incoming talent.</p>
                 </header>
 

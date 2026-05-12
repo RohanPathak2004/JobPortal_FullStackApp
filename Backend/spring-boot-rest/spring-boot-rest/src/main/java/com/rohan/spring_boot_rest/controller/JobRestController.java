@@ -9,6 +9,8 @@ import com.rohan.spring_boot_rest.service.ApplicationsService;
 import com.rohan.spring_boot_rest.service.JobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -95,7 +97,7 @@ public class JobRestController {
 
     @GetMapping("/application/{appId}")
     @PreAuthorize("hasRole('RECRUITER')")
-    public Applications getApplicationById(@PathVariable("appId") Integer appId){
+    public ApplicationDto getApplicationById(@PathVariable("appId") Integer appId){
         return applicationsService.getApplicationById(appId);
     }
 
@@ -109,6 +111,17 @@ public class JobRestController {
     @PreAuthorize("hasRole('RECRUITER')")
     public ResumeFileDto getResumeFile(@PathVariable Integer appId){
         return applicationsService.getResumeFile(appId);
+    }
+
+    @PatchMapping("status")
+    @PreAuthorize("hasRole('RECRUITER')")
+    public ResponseEntity<String> updateApplicationStatus(@RequestParam Integer id, @RequestParam String status){
+        try{
+            String s = applicationsService.updateApplicationStatus(id,status);
+            return new ResponseEntity<>(s,HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }

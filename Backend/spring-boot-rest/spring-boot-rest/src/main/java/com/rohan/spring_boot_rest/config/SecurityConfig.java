@@ -78,7 +78,7 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173", "http://127.0.0.1:5173"));
 
         // Allow all standard HTTP methods
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT","PATCH", "DELETE", "OPTIONS"));
 
         // Crucial: Allow the Authorization header you just added in Axios
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept"));

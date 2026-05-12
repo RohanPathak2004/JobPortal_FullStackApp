@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 @Entity
 @Data
@@ -17,6 +18,9 @@ public class Applications {
     private String name;
     private String email;
     private String resumeName;
+
+    private String status;
+
     private String resumeType;
     @Lob
     private byte[] resumeFile;

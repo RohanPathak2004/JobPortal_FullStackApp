@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {memo, useEffect, useState} from 'react'
 import {Document, Page} from "react-pdf";
 import {pdfjs} from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
@@ -6,7 +6,7 @@ import 'react-pdf/dist/Page/TextLayer.css';
 // This tells react-pdf to use the worker from a CDN instead of your local server
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 const ResumePreview = ({file}) => {
-    console.log(file)
+    console.log("resume component reloaded")
     const [fileUrl,setFileUrl] = useState('');
     const [loading, setLoading] = useState(true);
     const loadFile =async ()=>{

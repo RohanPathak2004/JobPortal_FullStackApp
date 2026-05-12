@@ -12,13 +12,9 @@ import java.util.List;
 
 public interface ApplicationsRepo extends JpaRepository<Applications,Integer> {
 
-    @Query(value = "SELECT * FROM applications WHERE job_post_id = :id", nativeQuery = true)
-    Applications findByJobId(@Param("id") Integer id);
 
-//    Applications findByEmail();
-
-    @Query("SELECT new com.rohan.spring_boot_rest.dto.ApplicationDto(a.name, a.email, a.job )"+ "FROM Applications a WHERE a.email = :email")
-    List<ApplicationDto> findBYEmail(@Param("email") String email);
+    @Query("SELECT new com.rohan.spring_boot_rest.dto.ApplicationDto(a.name, a.email, a.status , a.job)"+ "FROM Applications a WHERE a.email = :email ")
+    List<ApplicationDto> findByEmail(@Param("email") String email);
 
 
     @Query("SELECT new com.rohan.spring_boot_rest.dto.ResumeFileDto(a.resumeName, a.resumeType, a.resumeFile) " +
@@ -27,6 +23,10 @@ public interface ApplicationsRepo extends JpaRepository<Applications,Integer> {
 
     @Query("SELECT new com.rohan.spring_boot_rest.dto.ApplicationForRecruiterDto(j, CAST(a.id as string), a.name, a.email) " +
     "FROM Applications a JOIN a.job j " +
-    "WHERE j.email = :email ")
+    "WHERE j.email = :email and a.email!='rejected' ")
     List<ApplicationForRecruiterDto> getAllApplications(@Param("email") String email);
+
+    @Query("SELECT new com.rohan.spring_boot_rest.dto.ApplicationDto(a.name, a.email, a.status, a.job) "+"FROM Applications a WHERE a.id = :appId")
+    ApplicationDto findApplicationById(@Param("appId") Integer appId);
+
 }
