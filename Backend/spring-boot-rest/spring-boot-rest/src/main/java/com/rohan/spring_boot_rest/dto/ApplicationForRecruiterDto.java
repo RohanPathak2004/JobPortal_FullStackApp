@@ -6,6 +6,7 @@ public record ApplicationForRecruiterDto(
         JobPost jobPost,
         String id,
         String name,
-        String email
+        String email,
+        String status
 ) {
 }

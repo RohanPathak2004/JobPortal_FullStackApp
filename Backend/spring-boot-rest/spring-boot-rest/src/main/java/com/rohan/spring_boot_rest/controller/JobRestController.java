@@ -103,8 +103,8 @@ public class JobRestController {
 
     @GetMapping("/candidate/applications")
     @PreAuthorize("hasRole('CANDIDATE')")
-    public List<ApplicationDto> getAllApplicationsByCandidate(Principal principal){
-        return applicationsService.getAllApplicationsByCandidate(principal);
+    public List<ApplicationDto> getAllApplicationsForCandidate(Principal principal){
+        return applicationsService.getAllApplicationsForCandidate(principal);
     }
 
     @GetMapping("/resume/{appId}")

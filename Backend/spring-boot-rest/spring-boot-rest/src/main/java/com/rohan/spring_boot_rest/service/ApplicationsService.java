@@ -54,7 +54,7 @@ public class ApplicationsService {
         return applicationsRepo.getAllApplications(email);
     }
 
-    public List<ApplicationDto> getAllApplicationsByCandidate(Principal principal) {
+    public List<ApplicationDto> getAllApplicationsForCandidate(Principal principal) {
         String email = principal.getName();
         return applicationsRepo.findByEmail(email);
     }

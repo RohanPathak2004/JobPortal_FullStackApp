@@ -21,9 +21,9 @@ public interface ApplicationsRepo extends JpaRepository<Applications,Integer> {
             "FROM Applications a WHERE a.id = :appId")
     ResumeFileDto findResumeFileById(@Param("appId") Integer appId);
 
-    @Query("SELECT new com.rohan.spring_boot_rest.dto.ApplicationForRecruiterDto(j, CAST(a.id as string), a.name, a.email) " +
+    @Query("SELECT new com.rohan.spring_boot_rest.dto.ApplicationForRecruiterDto(j, CAST(a.id as string), a.name, a.email,a.status) " +
     "FROM Applications a JOIN a.job j " +
-    "WHERE j.email = :email and a.email!='rejected' ")
+    "WHERE (j.email = :email and a.status!='reject') ")
     List<ApplicationForRecruiterDto> getAllApplications(@Param("email") String email);
 
     @Query("SELECT new com.rohan.spring_boot_rest.dto.ApplicationDto(a.name, a.email, a.status, a.job) "+"FROM Applications a WHERE a.id = :appId")
