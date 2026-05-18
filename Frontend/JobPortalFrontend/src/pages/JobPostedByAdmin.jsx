@@ -38,7 +38,7 @@ const JobPostedByAdmin = () => {
                         </div>
 
                         <button className='bg-blue-500 px-4 py-2 hover:bg-blue-600 text-white rounded-lg cursor-pointer'>
-                            <Link to={`/jobPost/${post.postId}`} state={post}>
+                            <Link to={`/action/${post.postId}`} state={post}>
                                 Actions
                             </Link>
 

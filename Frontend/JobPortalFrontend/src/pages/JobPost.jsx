@@ -30,14 +30,15 @@ const JobPost = () => {
 
     // console.log(open)
     return (
-        <div className='bg-taupe-50 min-h-screen w-full flex justify-center items-start  py-10 '>
+        <div className='bg-taupe-50 min-h-full w-full flex justify-center items-start  py-10 '>
             <div
-                className='bg-white  flex flex-col w-full md:max-w-full shadow-xl shadow-gray-500/50 border border-gray-100 overflow-hidden'>
+                className='bg-white flex flex-col w-full md:max-w-full  shadow-xl shadow-gray-500/50 border border-gray-100 overflow-hidden'>
 
                 {/* Header Section */}
                 <div className='bg-linear-to-r from-green-600  to-green-700  p-8  text-white'>
                     <div className='flex justify-between md:px-25 items-start'>
                         <div>
+                            <div></div>
                             <p className='text-blue-100 text-sm font-semibold uppercase tracking-wider mb-1'>Job
                                 ID: {jobPost?.postId}</p>
                             <h1 className='text-3xl font-bold'>{jobPost?.postProfile}</h1>

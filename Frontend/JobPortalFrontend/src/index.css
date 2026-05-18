@@ -1,9 +1,14 @@
 @import "tailwindcss";
 
 
-
+@custom-variant dark (&:where(.dark, .dark *));
 
 
 @theme {
     --font-sans: 'Inter Variable', sans-serif;
+}
+
+
+body {
+    transition: background-color 300ms ease, color 300ms ease;
 }

@@ -36,9 +36,10 @@ const ResumePreview = ({file}) => {
                     <p className="text-gray-500">Loading Resume...</p>
                 </div>
             ) : fileUrl ? (
-                <iframe
+                <object
                     title="Resume"
-                    src={fileUrl}
+                    data={fileUrl}
+                    type={file.type}
                     className="w-full h-full border-none"
                 />
             ) : (

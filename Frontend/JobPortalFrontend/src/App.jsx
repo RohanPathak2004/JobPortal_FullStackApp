@@ -46,7 +46,7 @@ function App() {
 
     ]
     return (
-        <div className='h-screen mx-auto '>
+        <div className='min-h-screen bg-white text-zinc-900 transition-colors duration-300 dark:bg-slate-950 dark:text-zinc-100'>
 
             <JobContextProvider>
 
@@ -54,11 +54,12 @@ function App() {
                 <Container>
                     <Routes>
                         <Route path="/" element={<Home/>}></Route>
+                        <Route path="/dashboard" element={<UserDashboard/>}/>
                         <Route path="/search" element={<Search/>}></Route>
                         <Route path={'/login'} element={<Login/>}/>
                         <Route path={'/register'} element={<Register/>}/>
                         <Route path={'/jobPost/:postId'} element={<JobPost/>}/>
-                        {user?.role === 'ROLE_RECRUITER' &&
+                        {user?.role === 'ROLE_RECRUITER' && <>
                             <Route path='/' element={<AdminDashboard/>}>
                                 {adminRoute.map((route) =>
                                     route.path === null
@@ -66,9 +67,14 @@ function App() {
                                         : <Route key={route.path} path={route.path} element={route.element}/>
                                 )
                                 }
-                                <Route path={'/review/application/:applicationId'} element={<ApplicationReview/>}/>
-                                <Route path="/jobPost/:postId" element={<RecruiterRoute/>}></Route>
+
                             </Route>
+                            <Route path={'/action/:postID'}
+                                   element={<UpdateAndDeleteJobPost/>}
+                            />
+                            <Route path={'/review/application/:applicationId'} element={<ApplicationReview/>}/>
+                            <Route path="/jobPost/:postId" element={<RecruiterRoute/>}></Route>
+                        </>
                         }
                     </Routes>
                 </Container>

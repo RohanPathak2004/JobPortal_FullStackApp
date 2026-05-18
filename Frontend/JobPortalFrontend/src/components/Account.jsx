@@ -62,6 +62,7 @@ const Account = () => {
                         <p className="text-xs text-gray-400 font-semibold uppercase tracking-wider">Account</p>
                     </div>
                     <button
+                        onClick={()=>navigate('/dashboard')}
                         className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 flex items-center gap-3 transition-colors cursor-pointer"
                     >
                         <span>Dashboard</span>

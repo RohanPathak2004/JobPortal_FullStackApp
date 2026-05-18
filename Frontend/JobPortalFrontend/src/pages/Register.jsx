@@ -52,10 +52,10 @@ const  Register = ()=>{
 
     return (
         <div className={'w-full flex justify-center items-center py-5'}>
-            <form onSubmit={(e)=>handleSignUp(e)} className='md:mt-5 w-[80%] md:w-[45%] md:gap-4 md:px-8 md:py-10 flex flex-col gap-8 shadow-sm shadow-zinc-400 px-4 py-5'>
+            <form onSubmit={(e)=>handleSignUp(e)} className=' bg-white md:mt-5 w-[80%] md:w-[45%] md:gap-8 md:px-8 md:py-10 flex flex-col gap-8 shadow-zince-600 border-zinc-900  shadow-xl px-4 py-5'>
                 {/* Email Field */}
                 <div className='w-full flex flex-col justify-center gap-1'>
-                    <label htmlFor={'email'} className='text-[1.2rem] text-zinc-900  font-medium '>Email</label>
+                    <label htmlFor={'email'} className='text-[1.2rem] text-zinc-800  font-medium '>Email</label>
                     <input
                         placeholder='Enter Email'
                         value={userCredentials.email}
@@ -68,7 +68,7 @@ const  Register = ()=>{
 
                 {/* Password Field */}
                 <div className='w-full flex flex-col gap-2'>
-                    <label htmlFor={'password'} className='text-[1.2rem]  font-medium'>Password</label>
+                    <label htmlFor={'password'} className='text-[1.2rem] text-zinc-800  font-medium'>Password</label>
                     <input
                         placeholder="password"
                         className={`${noMatch ? 'focus:outline-red-300' : 'focus:outline-green-200'} bg-gray-100 border border-gray-200 rounded-lg px-2 py-1`}
@@ -83,7 +83,7 @@ const  Register = ()=>{
 
                 {/* Confirm Password Field */}
                 <div className='w-full flex flex-col gap-3'>
-                    <label htmlFor={'confirm_password'} className='text-[1.2rem] font-medium'>Confirm Password</label>
+                    <label htmlFor={'confirm_password'} className='text-[1.2rem] text-zinc-800  font-medium'>Confirm Password</label>
                     <input
                         placeholder="Confirm password"
                         className={`${(password !== confirmPassword) ? 'focus:outline-red-300' : 'focus:outline-green-300'} bg-gray-100 border border-gray-200 rounded-lg px-2 py-1`}
@@ -117,7 +117,7 @@ const  Register = ()=>{
 
                 {/* Authority Select */}
                 <div className='w-full flex justify-start gap-3 '>
-                    <label className='text-[1.2rem] text-zinc-900  font-medium'>Register Yourself as</label>
+                    <label className='text-[1.2rem] text-zinc-800  font-medium'>Register Yourself as</label>
                     <select required value={userCredentials.authority} onChange={(e) => setUserCredentials({ ...userCredentials, authority: e.target.value })} className='md:w-1/2  text-sm px-4 py-1 bg-zinc-100 border border-gray-200 rounded-lg focus:outline-lime-200'>
                         <option value={'CANDIDATE'}>CANDIDATE</option>
                         <option value={'RECRUITER'}>RECRUITER</option>
@@ -125,7 +125,7 @@ const  Register = ()=>{
                 </div>
 
                 <div className='w-full flex justify-center items-center'>
-                    <button type={'submit'} className='cursor-pointer bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 text-center md:w-2/6 md:text-[1.2rem] rounded-lg'>Sign up</button>
+                    <button type={'submit'} className='font-bold cursor-pointer bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 text-center md:w-2/6 md:text-[1.2rem] rounded-lg'>Sign up</button>
                 </div>
             </form>
         </div>

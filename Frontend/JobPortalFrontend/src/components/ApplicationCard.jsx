@@ -65,6 +65,10 @@ const ApplicationCard = ({application}) => {
                 {application.jobPost.postId}
             </span>
                 </div>
+                <div className={'flex items-center gap-2'}>
+                    <span className='text-sm text-gray-600' >Status</span>
+                    <span className={`${application.status==='accept'?'text-green-600 font-bold':'text-orange-400 font-bold'}` } >{application.status}</span>
+                </div>
             </div>
 
             {/* Right Section: Action */}

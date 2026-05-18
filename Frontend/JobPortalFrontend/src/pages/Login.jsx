@@ -51,11 +51,11 @@ const Login = () => {
 
     return (
 
-            <div className={' w-full flex  justify-center items-center  px-8 py-5'}>
+            <div className={' w-full h-full flex  justify-center items-center  px-8 py-5'}>
 
 
-                <form onSubmit={(e) => handleLogin(e)}
-                      className=' w-full md:mt-25   md:w-[50%] md:gap-8 md:px-8 flex flex-col gap-8 shadow-zince-600 border-zinc-900  shadow-md px-4 py-5'>
+                <form  onSubmit={(e) => handleLogin(e)}
+                      className='bg-white w-full md:mt-25   md:w-[50%] md:gap-8 md:px-8 flex flex-col gap-8 shadow-zince-600 border-zinc-900  shadow-xl px-4 py-5'>
                     <div className='w-full flex flex-col justify-center gap-1 '>
                         <label className='text-[1.2rem] md:text-[1.1rem] font-medium text-zinc-950 '>Email</label>
                         <input value={userCredentials.email}
@@ -94,7 +94,8 @@ const Login = () => {
                     </div>
                     <div className='w-full flex justify-center items-center'>
                         <button type={'submit'}
-                                className='w-25 bg-blue-500 hover:bg-blue-500 text-white px-4 py-2 text-center md:w-2/6  md:py-2 md:text-[1.2rem] md:rounded-md rounded-lg '>Login
+                                className='font-bold
+                                 w-25 bg-blue-500 hover:bg-blue-500 text-white px-4 py-2 text-center md:w-2/6  md:py-2 md:text-[1.2rem] md:rounded-lg rounded-lg '>Login
                         </button>
                     </div>
                     <div className='w-full text-center'>

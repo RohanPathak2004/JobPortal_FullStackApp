@@ -3,7 +3,7 @@ import {useLocation} from "react-router-dom";
 import JobPost from "./JobPost.jsx";
 import JobPostCard from "../components/JobPostCard.jsx";
 import ResumePreview from "../components/ResumePreview.jsx";
-import BackButtonWebPage from "../components/BackButtonWebPage.jsx";
+import BackButton from "../components/BackButton.jsx";
 import ApplicationStatus from "../components/ApplicationStatus.jsx";
 import authContext, {useAuthContext} from "../context/AuthContext.jsx";
 import axios from "axios";
@@ -56,14 +56,14 @@ const ApplicationReview = () => {
         if (status === 'reject') return { color: 'red' };
         return { color: 'gray' };
     };
-    console.log(data);
+    console.log("on this page application review");
     if (data === undefined) return <h1>no response</h1>
     return (
         <div className={' flex  flex-col py-4 gap-4   md:gap-8'}>
 
             <div className='flex flex-col gap-2 items-start md:flex-row  md:justify-between md:items-start'>
                 <div className={'px-2 rounded-2xl hover:bg-neutral-100  transition-all'}>
-                    <BackButtonWebPage navigateTo={'/applications'}/>
+                    <BackButton />
                 </div>
 
             </div>
@@ -100,7 +100,7 @@ const ApplicationReview = () => {
             </div>
             <div className={'h-[800px] w-full py-2'}>
                 <h2 className={'text-2xl font-medium py-1'}>Resume/CV Uploaded By Candidate</h2>
-                <ResumePreview file={file}/>
+                {file&&<ResumePreview file={file}/>}
             </div>
             <div>
             </div>
