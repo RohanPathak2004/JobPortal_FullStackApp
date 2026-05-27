@@ -51,22 +51,22 @@ const ApplicationCard = ({application}) => {
 
     return (
         <div
-            className='w-full p-6 mb-4 bg-white border border-gray-300 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col md:flex-row md:justify-between md:items-center gap-4'>
+            className='dark:bg-slate-950 dark:border-zinc-700 w-full p-6 mb-4 bg-white border border-gray-300 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col md:flex-row md:justify-between md:items-center gap-4'>
 
             {/* Left Section: Info */}
             <div className='flex flex-col space-y-1'>
                 <div className='flex flex-col justify-start md:flex-row  md:items-center md:gap-2'>
-                    <span className='text-sm font-semibold text-gray-500 uppercase tracking-wider'>Candidate</span>
-                    <span className='text-lg font-medium text-gray-900'>{application.email}</span>
+                    <span className='text-sm font-semibold text-gray-500 uppercase tracking-wider dark:text-neutral-200 dark:font-bold'>Candidate</span>
+                    <span className='text-lg font-medium text-gray-900 dark:text-white dark:font-bold'>{application.email}</span>
                 </div>
                 <div className='flex items-center gap-2'>
-                    <span className='text-sm text-gray-600'>Job ID:</span>
-                    <span className='px-2 py-0.5  text-gray-800 text-sm font-mono rounded-md border border-gray-200'>
+                    <span className='text-sm text-gray-600 dark:text-neutral-200 dark:font-bold'>Job ID:</span>
+                    <span className='px-2 py-0.5  text-gray-800 text-sm font-mono rounded-md border border-gray-200 dark:text-neutral-200 dark:border-neutral-700'>
                 {application.jobPost.postId}
             </span>
                 </div>
                 <div className={'flex items-center gap-2'}>
-                    <span className='text-sm text-gray-600' >Status</span>
+                    <span className='text-sm text-gray-600 dark:text-neutral-200 dark:font-bold' >Status</span>
                     <span className={`${application.status==='accept'?'text-green-600 font-bold':'text-orange-400 font-bold'}` } >{application.status}</span>
                 </div>
             </div>
@@ -75,7 +75,7 @@ const ApplicationCard = ({application}) => {
             <div className='flex items-center'>
                 <Link to={`/review/application/${application.id}`} state={application.id}>
                     <button
-                        className='w-full  md:w-auto px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg shadow-sm transition-colors duration-200'>
+                        className='w-full  md:w-auto px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg shadow-sm transition-colors duration-200 dark:bg-neutral-100 dark:text-neutral-900 dark:hover:bg-neutral-100'>
                         Review Application
                     </button>
                 </Link>

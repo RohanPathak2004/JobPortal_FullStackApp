@@ -26,7 +26,7 @@ const AdminDashboard = () => {
                 </header>
 
                 {/* Modern Navigation Container */}
-                <div className="bg-white dark:border-zinc-700 border border-gray-200 rounded-xl shadow-sm overflow-hidden dark:bg-slate-800">
+                <div className="bg-white dark:border-zinc-700 border border-gray-200 rounded-xl shadow-sm overflow-y-auto dark:bg-slate-950">
                     <nav className="p-2 border-b dark:border-zinc-700 border-gray-100 bg-gray-50/50 dark:bg-slate-700">
                         <div className="grid transition duration-300 grid-cols-3 gap-2 bg-gray-200/50 dark:bg-slate-800 dark:text-white p-1 rounded-lg max-w-sm">
                             <Link
@@ -35,7 +35,7 @@ const AdminDashboard = () => {
                                 className={`flex items-center justify-center py-2 px-4 rounded-md text-sm font-medium transition-all duration-200 ${
                                     panel==='posts'
                                         ? 'bg-white dark:text-white dark:bg-gray-700 text-green-700 shadow-sm'
-                                        : 'text-zinc-600 hover:text-zinc-900'
+                                        : 'text-zinc-600 hover:text-zinc-900 dark:hover:text-white'
                                 }`}
                             >
                                 Job Posts
@@ -47,7 +47,7 @@ const AdminDashboard = () => {
                                 className={`flex items-center justify-center py-2 px-4 rounded-md text-sm font-medium transition-all duration-200 ${
                                     panel==='applications'
                                         ? 'bg-white dark:text-white dark:bg-gray-700 text-green-700 shadow-sm'
-                                        : 'text-gray-600 hover:text-gray-900'
+                                        : 'text-gray-600 hover:text-gray-900 dark:hover:text-white'
                                 }`}
                             >
                                 Applications
@@ -58,7 +58,7 @@ const AdminDashboard = () => {
                                 className={`flex items-center justify-center py-2 px-4 rounded-md text-sm font-medium transition-all duration-200 ${
                                     panel==='addJob'
                                         ? 'bg-white dark:text-white dark:bg-gray-700 text-green-700 shadow-sm'
-                                        : 'text-gray-600 hover:text-gray-900'
+                                        : 'text-gray-600 hover:text-gray-900 dark:hover:text-white'
                                 }`}
                             >
                                 Create New Opening

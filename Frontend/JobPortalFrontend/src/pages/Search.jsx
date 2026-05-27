@@ -31,9 +31,9 @@ const Search = () => {
     },[searchedValue])
     return (
         <div className='flex flex-col justify-center'>
-            <div className="w-[95%] z-10 mt-5 relative">
-                <label className="min-w-3/4 flex justify-center  items-center sticky">
-                    <input onChange={(e)=>setSearchedValue(e.target.value)} list={"stackSuggestion"} id="search" className="px-3 py-1 w-[50%] rounded-md border-zinc-400 bg-zinc-100  focus:outline-zinc-400 border-2" placeholder="Search by Keyword"/>
+            <div className="w-[95%] z-10 mt-5 relative ">
+                <label className="min-w-3/4 flex justify-center  items-center sticky ">
+                    <input onChange={(e)=>setSearchedValue(e.target.value)} list={"stackSuggestion"} id="search" className="px-3 py-1 w-[50%] rounded-md border-zinc-400 bg-zinc-100  focus:outline-zinc-400 border-2 dark:bg-slate-900 dark:text-neutral-100" placeholder="Search by Keyword"/>
                     <button className={" px-2 py-1 cursor-pointer rounded-md"} onClick={()=>handleSearching(searchedValue)}><SearchIcon/></button>
                 </label>
             </div>

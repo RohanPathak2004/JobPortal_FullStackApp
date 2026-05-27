@@ -54,16 +54,16 @@ const AddJob = () => {
     };
 
     return (
-        <div className="w-full  bg-gray-50 flex items-center justify-center p-4">
+        <div className="w-full  bg-gray-50 flex items-center justify-center p-4 dark:bg-slate-950">
             <form
                 onSubmit={handleFormSubmission}
-                className="w-full max-w-md md:max-w-lg lg:max-w-xl bg-white border border-gray-200 flex flex-col p-6 gap-4 rounded-3xl shadow-lg"
+                className="w-full max-w-md md:max-w-lg lg:max-w-xl bg-white border border-gray-200 flex flex-col p-6 gap-4 rounded-3xl shadow-lg dark:bg-slate-950 dark:border-zinc-700"
             >
-                <h2 className="text-2xl font-bold text-center text-gray-800 mb-2">Post a New Job</h2>
+                <h2 className="text-2xl font-bold text-center text-gray-800 mb-2 dark:text-neutral-100">Post a New Job</h2>
 
                 {/* Job Profile */}
                 <div className="w-full">
-                    <label className="text-sm font-semibold text-gray-700 ml-1">Job Profile</label>
+                    <label className="text-sm font-semibold text-gray-700 ml-1 dark:text-neutral-100">Job Profile</label>
                     <input
                         required
                         value={newJob.postProfile}
@@ -76,7 +76,7 @@ const AddJob = () => {
 
                 {/* Job Description */}
                 <div className="w-full">
-                    <label className="text-sm font-semibold text-gray-700 ml-1">Job Description</label>
+                    <label className="text-sm font-semibold text-gray-700 ml-1 dark:text-neutral-100">Job Description</label>
                     <textarea
                         required
                         value={newJob.postDesc}
@@ -88,7 +88,7 @@ const AddJob = () => {
 
                 {/* Experience */}
                 <div className="w-full">
-                    <label className="text-sm font-semibold text-gray-700 ml-1">Experience (Years)</label>
+                    <label className="text-sm font-semibold text-gray-700 ml-1 dark:text-neutral-100">Experience (Years)</label>
                     <input
                         required
                         type="number"
@@ -101,7 +101,7 @@ const AddJob = () => {
 
                 {/* Tech Stack Dropdown */}
                 <div className="w-full relative">
-                    <label className="text-sm font-semibold text-gray-700 ml-1">Tech Stack</label>
+                    <label className="text-sm font-semibold text-gray-700 ml-1 dark:text-neutral-100">Tech Stack</label>
                     <button
                         type="button"
                         onClick={() => setOpenDropDown(!openDropDown)}

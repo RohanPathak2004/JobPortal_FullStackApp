@@ -51,24 +51,24 @@ const Login = () => {
 
     return (
 
-            <div className={' w-full h-full flex  justify-center items-center  px-8 py-5'}>
+            <div className={' w-full h-full flex  justify-center items-center  px-8 py-5 '}>
 
 
                 <form  onSubmit={(e) => handleLogin(e)}
-                      className='bg-white w-full md:mt-25   md:w-[50%] md:gap-8 md:px-8 flex flex-col gap-8 shadow-zince-600 border-zinc-900  shadow-xl px-4 py-5'>
+                      className='bg-white w-full md:mt-25   md:w-[50%] md:gap-8 md:px-8 flex flex-col gap-8 shadow-zince-600 border-zinc-900  shadow-xl px-4 py-5 dark:bg-slate-950 dark:border dark:border-slate-700'>
                     <div className='w-full flex flex-col justify-center gap-1 '>
-                        <label className='text-[1.2rem] md:text-[1.1rem] font-medium text-zinc-950 '>Email</label>
+                        <label className='text-[1.2rem] md:text-[1.1rem] font-medium text-zinc-950  dark:text-neutral-100'>Email</label>
                         <input value={userCredentials.email}
                                placeholder='Email'
                                onChange={(e) => setUserCredentials({...userCredentials, email: e.target.value})}
-                               className=' px-2 py-1 focus:outline-zinc-400 bg-gray-100  border border-gray-200 rounded-md'
+                               className=' px-2 py-1 focus:outline-zinc-400 bg-gray-100  border border-gray-200 rounded-md dark:bg-slate-800 dark:border-slate-700'
                                required type={'email'}/>
                     </div>
                     <div className='w-full flex flex-col gap-2'>
                         <label className='text-[1.2rem] md:text-[1.1rem] font-medium '>Password</label>
                         <input
                             placeholder="Enter password"
-                            className={`${noMatch ? 'focus:outline-red-200' : 'focus:outline-green-200'} bg-gray-100  border-1 border-gray-200 rounded-lg px-2 py-1 focus:outline-green-200`}
+                            className={`${noMatch ? 'focus:outline-red-200' : 'focus:outline-green-200'} bg-gray-100  border-1 border-gray-200 rounded-lg px-2 py-1 focus:outline-green-200 dark:bg-slate-800 dark:border-slate-700`}
                             type={seePassword ? 'text' : 'password'}
                             id="password"
                             name="password"
@@ -95,7 +95,7 @@ const Login = () => {
                     <div className='w-full flex justify-center items-center'>
                         <button type={'submit'}
                                 className='font-bold
-                                 w-25 bg-blue-500 hover:bg-blue-500 text-white px-4 py-2 text-center md:w-2/6  md:py-2 md:text-[1.2rem] md:rounded-lg rounded-lg '>Login
+                                 w-25 bg-blue-500 hover:bg-blue-500 text-white px-4 py-2 text-center md:w-2/6  md:py-2 md:text-[1.2rem] md:rounded-lg rounded-lg cursor-pointer '>Login
                         </button>
                     </div>
                     <div className='w-full text-center'>
