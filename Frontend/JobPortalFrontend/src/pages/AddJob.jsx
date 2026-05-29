@@ -68,7 +68,7 @@ const AddJob = () => {
                         required
                         value={newJob.postProfile}
                         onChange={(e) => setNewJob(prev => ({...prev, postProfile: e.target.value}))}
-                        className="w-full mt-1 px-4 py-2 rounded-xl border-2 border-blue-100 focus:border-blue-400 focus:outline-none transition-all"
+                        className="w-full mt-1 px-4 py-2 rounded-xl border-2 border-blue-100 focus:border-blue-400 focus:outline-none transition-all dark:placeholder-slate-200"
                         type="text"
                         placeholder="e.g. Fullstack Developer"
                     />
@@ -82,7 +82,7 @@ const AddJob = () => {
                         value={newJob.postDesc}
                         onChange={(e) => setNewJob(prev => ({...prev, postDesc: e.target.value}))}
                         placeholder="Describe the role..."
-                        className="w-full mt-1 min-h-[100px] px-4 py-2 rounded-xl border-2 border-blue-100 focus:border-blue-400 focus:outline-none transition-all"
+                        className="w-full mt-1 min-h-[100px] px-4 py-2 rounded-xl border-2 border-blue-100 focus:border-blue-400 focus:outline-none transition-all dark:placeholder-slate-200"
                     />
                 </div>
 
@@ -118,7 +118,7 @@ const AddJob = () => {
                                         type="checkbox"
                                         checked={indexOfSelectedStacks.includes(idx)}
                                         onChange={() => handleStackSelection(idx)}
-                                        className="w-4 h-4 rounded text-blue-600"
+                                        className="w-4 h-4 rounded text-blue-600 dark:placeholder-slate-200"
                                     />
                                     <span className="ml-3 text-gray-700">{stack}</span>
                                 </label>

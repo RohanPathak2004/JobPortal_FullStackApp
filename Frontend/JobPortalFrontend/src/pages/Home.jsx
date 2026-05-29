@@ -5,15 +5,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {useAuthContext} from "../context/AuthContext.jsx";
 import Search from "./Search.jsx";
 
-function JobPostFilter() {
-    return (
-        <div>
-            <div>
 
-            </div>
-        </div>
-    );
-}
 
 const Home = () => {
     const {jobPosts,setJobPosts, setLoading, loading,reload} = useContext(JobContext);
@@ -32,10 +24,8 @@ const Home = () => {
 
 
     return (
-        <div className="w-full py-4 md:flex md:flex-row md:gap-2 md:justify-center">
-            <div>
-                <JobPostFilter/>
-            </div>
+        <div className="w-full py-4  md:justify-center">
+
             <div  className={''}>
                 {loading && <div>
                     <h2 className="flex items-center justify-center">loading....</h2>

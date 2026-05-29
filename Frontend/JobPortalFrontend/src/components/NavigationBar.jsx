@@ -15,14 +15,14 @@ const NavigationBar = () => {
     return (
 
         <nav
-            className="sticky top-0 z-50 flex w-full flex-col border-b border-zinc-300 bg-white px-20 py-1 transition-colors duration-300 dark:border-zinc-700 dark:bg-slate-950 md:flex-row md:justify-between">
+            className="sticky top-0 z-50 flex  flex-col border-b border-zinc-300 bg-white px-20 py-1 transition-colors duration-300 dark:border-zinc-700 dark:bg-slate-950 md:flex-row md:justify-between">
             <div className={'flex items-center justify-center'}>
                 <Link to="/">
                     <span className="cursor-pointer text-3xl font-extrabold text-gray-800 transition-colors duration-300 dark:text-zinc-100">Job</span>
                     <span className="cursor-pointer text-3xl font-extrabold text-green-900 transition-colors duration-300 dark:text-green-400">Portal</span>
                 </Link>
             </div>
-            <ul className="flex items-center gap-4 text-[1.1rem] text-sm font-medium text-zinc-500 transition-colors duration-300 dark:text-zinc-300">
+            <ul className="flex items-center justify-center gap-2 text-[1.1rem] text-sm font-medium text-zinc-500 transition-colors duration-300 dark:text-zinc-300">
                 <li className="transition duration-300 hover:text-zinc-900 dark:hover:text-white">
                     <Link to="/">
                         Home

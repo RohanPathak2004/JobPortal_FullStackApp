@@ -30,9 +30,9 @@ const JobPost = () => {
 
     // console.log(open)
     return (
-        <div className='bg-taupe-50 min-h-full w-full flex justify-center items-start  py-10 '>
+        <div className='bg-taupe-50 min-h-full w-full flex justify-center items-start  py-10 dark:bg-slate-950 '>
             <div
-                className='bg-white flex flex-col w-full md:max-w-full  shadow-xl shadow-gray-500/50 border border-gray-100 overflow-hidden'>
+                className='bg-white flex flex-col w-full md:max-w-full  shadow-xl shadow-gray-500/50 border dark:border-zinc-700 border-gray-100 overflow-hidden '>
 
                 {/* Header Section */}
                 <div className='bg-linear-to-r from-green-600  to-green-700  p-8  text-white'>
@@ -50,22 +50,22 @@ const JobPost = () => {
                 </div>
 
                 {/* Content Body */}
-                <div className='p-8 md:px-30 flex flex-col gap-8'>
+                <div className='p-8 md:px-30 flex flex-col gap-8 dark:bg-slate-900'>
 
                     {/* Description */}
                     <section>
-                        <h3 className='text-gray-900 font-bold text-lg mb-3 flex items-center gap-2'>
+                        <h3 className='text-gray-900 font-bold text-lg mb-3 flex items-center gap-2 dark:text-neutral-100'>
                             <span className='w-1 h-6 bg-blue-500 rounded-full'></span>
                             Job Description
                         </h3>
-                        <article className='text-gray-600 leading-relaxed font-normal text-[1.1rem]'>
+                        <article className='text-gray-600 leading-relaxed font-normal text-[1.1rem] dark:text-neutral-100'>
                             {jobPost?.postDesc}
                         </article>
                     </section>
 
                     {/* Skills */}
                     <section>
-                        <h3 className='text-gray-900 font-bold text-lg mb-4 flex items-center gap-2'>
+                        <h3 className='text-gray-900 font-bold text-lg mb-4 flex items-center gap-2 dark:text-neutral-100'>
                             <span className='w-1 h-6 bg-blue-500 rounded-full'></span>
                             Required Skills
                         </h3>
@@ -85,7 +85,7 @@ const JobPost = () => {
                     <div className='pt-6 border-t border-gray-100 mt-4'>
                         <button
                             onClick={()=>setOpen(true)}
-                            className='w-full md:w-max mx-auto flex justify-center items-center bg-blue-600 hover:bg-blue-700 transform hover:-translate-y-0.5 transition-all text-white font-bold py-3 px-12 rounded-xl shadow-lg shadow-blue-200'>
+                            className='w-full md:w-max mx-auto flex justify-center items-center bg-blue-600 hover:bg-blue-700 transform hover:-translate-y-0.5 transition-all text-white font-bold py-3 px-12 rounded-xl shadow-lg shadow-blue-200 dark:shadow-md'>
                             Apply Now
                         </button>
                     </div>

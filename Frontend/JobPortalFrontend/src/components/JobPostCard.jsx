@@ -3,7 +3,7 @@ import React from 'react'
 const JobPostCard = ({jobPost}) => {
 
     return (
-        <div className="bg-white dark:bg-slate-950 dark:text-white dark:border-zinc-700 text-zinc-900 flex flex-col justify-center gap-2 max-w-full h-full  border border-zinc-300 rounded-lg px-4 py-1 hover:border-zinc-400 transition duration-300 cursor-pointer">
+        <div className="bg-white dark:bg-slate-950 dark:text-white dark:border-zinc-700 text-zinc-900 flex flex-col justify-center gap-2 max-w-full h-full  border border-zinc-200 rounded-lg px-4 py-1 hover:border-zinc-400 transition duration-300 cursor-pointer">
             <div className="text-[1.2rem] flex items-center justify-start gap-2">
                 <h2 className='font-medium text-neutral-700 dark:text-white dark:font-bold'>ID:</h2>
                 <p>

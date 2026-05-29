@@ -46,7 +46,7 @@ function App() {
 
     ]
     return (
-        <div className='min-h-screen bg-white text-zinc-900 transition-colors duration-300 dark:bg-slate-950 dark:text-zinc-100'>
+        <div className='min-h-[100vh] bg-white text-zinc-900 transition-colors duration-300 dark:bg-slate-950 dark:text-zinc-100'>
 
             <JobContextProvider>
 

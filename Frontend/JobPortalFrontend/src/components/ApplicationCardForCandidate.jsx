@@ -7,7 +7,7 @@ const ApplicationCardForCandidate = ({postId,postProfile,status='Review'}) => {
         return { color: 'orange' };
     };
     return (
-        <div className={'bg-white flex items-center justify-between border border-zinc-400 rounded-md p-4'}>
+        <div className={'bg-white flex items-center justify-between border border-zinc-200 rounded-md p-4 dark:bg-slate-900 dark:border-zinc-700'}>
             <div>
                 <div className='flex items-center gap-2'>
                     <span>
