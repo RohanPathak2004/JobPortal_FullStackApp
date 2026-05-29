@@ -67,7 +67,7 @@ public class JobService {
 
     public List<JobPost> search(String Keyword){
 
-        return repo.findByPostProfileContainingOrPostDescContaining(Keyword);
+        return repo.searchJobPost(Keyword);
     }
 
     public List<JobPost> getAllJobPostedByRecruiter(String email) {

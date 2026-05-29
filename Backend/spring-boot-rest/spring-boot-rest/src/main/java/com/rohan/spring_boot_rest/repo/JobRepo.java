@@ -15,10 +15,15 @@ import java.util.List;
 public interface JobRepo extends JpaRepository<JobPost,Integer> {
 
 
-    @Query("SELECT j FROM JobPost j WHERE " +
-            "LOWER(j.postProfile) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
-            "LOWER(j.postDesc) LIKE LOWER(CONCAT('%', :keyword, '%'))")
-    List<JobPost> findByPostProfileContainingOrPostDescContaining(@Param("keyword") String keyword);
+    @Query(value = "SELECT * FROM job_post j WHERE " +
+            "LOWER(j.post_profile) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            "LOWER(j.post_desc) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            "EXISTS (" +
+            "  SELECT 1 FROM unnest(j.post_tech_stack) AS stack " +
+            "  WHERE stack ILIKE '%' || :keyword || '%'" +
+            ")",
+            nativeQuery = true)
+    List<JobPost> searchJobPost(@Param("keyword") String keyword);
 
     List<JobPost> findByEmail(String email);
 
