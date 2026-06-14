@@ -30,11 +30,17 @@ import java.util.Collections;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    @Autowired
-    private JwtFilter jwtFilter;
 
-    @Autowired
-    private MyUserDetailService userDetailService;
+    private final JwtFilter jwtFilter;
+
+
+    private final MyUserDetailService userDetailService;
+
+    public SecurityConfig(JwtFilter jwtFilter,MyUserDetailService userDetailService){
+        this.jwtFilter = jwtFilter;
+        this.userDetailService = userDetailService;
+    }
+
 
     @Bean
     public AuthenticationProvider authenticationProvider(){

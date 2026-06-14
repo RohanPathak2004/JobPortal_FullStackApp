@@ -16,14 +16,20 @@ import java.util.Objects;
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepo userRepo;
 
-    @Autowired
-    private RecruiterRepo recruiterRepo;
+    private final UserRepo userRepo;
+    private final RecruiterRepo recruiterRepo;
+    private final BCryptPasswordEncoder encoder ;
 
-    @Autowired
-    private BCryptPasswordEncoder encoder ;
+
+
+    public UserService(UserRepo userRepo,RecruiterRepo recruiterRepo,BCryptPasswordEncoder encoder){
+        this.userRepo = userRepo;
+        this.recruiterRepo = recruiterRepo;
+        this.encoder = encoder;
+    }
+
+
 
     public UserResponseDto saveUser(UserRegisterRequestDto userRegisterRequestDto){
         User user = new User();
@@ -35,7 +41,11 @@ public class UserService {
         if(Objects.equals(savedUser.getAuthority(), "RECRUITER")){
             System.out.println("inside the service of recruiter");
             Recruiter recruiter = new Recruiter();
-            recruiter.setEmail(savedUser.getEmail());
+            recruiter.setUser(savedUser);
+            recruiterRepo.save(recruiter);
+        } else if (Objects.equals(savedUser.getAuthority(),"CANDIDATE")) {
+            Recruiter recruiter = new Recruiter();
+            recruiter.setUser(savedUser);
             recruiterRepo.save(recruiter);
         }
 

@@ -1,45 +1,109 @@
 package com.rohan.spring_boot_rest.service;
 
 
+import com.rohan.spring_boot_rest.dto.JobPostDto;
+import com.rohan.spring_boot_rest.dto.RecruiterProfileDto;
 import com.rohan.spring_boot_rest.model.JobPost;
+import com.rohan.spring_boot_rest.model.Recruiter;
 import com.rohan.spring_boot_rest.repo.JobRepo;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.rohan.spring_boot_rest.repo.RecruiterRepo;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 
 @Service
 public class JobService {
 
 
+    private final RecruiterRepo recruiterRepo;
 
-    @Autowired
-    private JobRepo repo;
+
+    private final JobRepo jobRepo;
+
+    public JobService(JobRepo jobRepo,RecruiterRepo recruiterRepo){
+        this.jobRepo = jobRepo;
+        this.recruiterRepo = recruiterRepo;
+    }
+
+
     private Integer generateRandomId(){
         return Math.abs((int)(Math.random()*1000));
     }
     public void addJob(JobPost jobpost){
         Integer randomId = generateRandomId();
         jobpost.setPostId(randomId);
-        repo.save(jobpost);
+        jobRepo.save(jobpost);
     }
 
-    public List<JobPost> getAllJobs(){
-        return repo.findAll();
+    public List<JobPostDto> getAllJobs(){
+        return jobRepo.findAllJobs();
     }
 
-    public JobPost getJob(int postId) {
-        Optional<JobPost> o = repo.findById(postId);
-        return o.orElse(new JobPost(-1, "Not Found", "No job post found with this ID", 0, new ArrayList<>(),"Not Found)"));
+    public ResponseEntity<?> getJob(int postId) {
+        Optional<JobPostDto> o = Optional.ofNullable(jobRepo.findJobById(postId));
+        if(o.isEmpty()){
+            return new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<JobPostDto>(o.get(),HttpStatus.FOUND);
     }
 
     public void updateJob(JobPost job) {
-       repo.save(job);
+       jobRepo.save(job);
     }
 
     public void deleteJob(int postId) {
-        repo.deleteById(postId);
+        jobRepo.deleteById(postId);
     }
+
+    public List<JobPostDto> search(String Keyword){
+
+        return jobRepo.searchJobPost(Keyword);
+    }
+
+    public List<JobPostDto> getAllJobPostedByRecruiter(String email) {
+        return jobRepo.findByEmail(email);
+    }
+
+
+
+    public ResponseEntity<String> updateRecruiterProfile(RecruiterProfileDto recruiterProfileDto) throws IOException {
+
+        //required fields
+        String name = recruiterProfileDto.name();
+        String companyName = recruiterProfileDto.companyName();
+        String companyUrl = recruiterProfileDto.companyUrl();
+        String email = recruiterProfileDto.email();
+
+        //optional fields
+        MultipartFile profilePicture = recruiterProfileDto.profilePicture();
+        MultipartFile companyLogo = recruiterProfileDto.companyLogo();
+        byte[] profilePictureFile = profilePicture.getBytes();
+        byte[] companyLogoFile = companyLogo.getBytes();
+
+
+        if(Objects.equals(name, "") ||Objects.equals(companyName, "")||Objects.equals(companyUrl, "")) return ResponseEntity.badRequest().body("All the fields are Required");
+
+
+
+        Recruiter recruiter = recruiterRepo.findByEmail(email);
+        recruiter.setName(name);
+        recruiter.setCompanyName(companyName);
+        recruiter.setCompanyUrl(companyName);
+        recruiter.setProfilePicture(profilePictureFile);
+        recruiter.setCompanyLogo(companyLogoFile);
+
+        recruiterRepo.save(recruiter);
+
+        return ResponseEntity.ok("Profile Updated Successfully.");
+
+
+    }
+
+
 
     public void load(){
         List<JobPost> jobs = new ArrayList<>(Arrays.asList(
@@ -62,15 +126,6 @@ public class JobService {
                 new JobPost(5, "Mobile App Developer", "Experience in mobile app development for iOS and Android", 3,
                         List.of("iOS Development", "Android Development", "Mobile App"),"rohanpathak258@gmail.com")
         ));
-        repo.saveAll(jobs);
-    }
-
-    public List<JobPost> search(String Keyword){
-
-        return repo.searchJobPost(Keyword);
-    }
-
-    public List<JobPost> getAllJobPostedByRecruiter(String email) {
-        return repo.findByEmail(email);
+        jobRepo.saveAll(jobs);
     }
 }

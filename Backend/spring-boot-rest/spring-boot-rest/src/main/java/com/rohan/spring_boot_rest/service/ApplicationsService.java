@@ -22,16 +22,17 @@ import java.util.Optional;
 @Service
 public class ApplicationsService {
 
-    @Autowired
-    private JobRepo jobRepo;
 
-    @Autowired
-    private ApplicationsRepo applicationsRepo;
-
-    @Autowired
-    private StatusMailSender mailSender;
+    private final JobRepo jobRepo;
+    private final ApplicationsRepo applicationsRepo;
+    private final StatusMailSender mailSender;
 
 
+    public ApplicationsService(StatusMailSender mailSender,ApplicationsRepo applicationsRepo,JobRepo jobRepo){
+        this.mailSender = mailSender;
+        this.applicationsRepo = applicationsRepo;
+        this.jobRepo = jobRepo;
+    }
 
     public void apply(String name, String email, int jobId, MultipartFile resumeFile) throws IOException {
         Applications apply = new Applications();

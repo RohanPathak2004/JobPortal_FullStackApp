@@ -6,34 +6,25 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
-
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Recruiter {
-
+public class Candidate {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer recruiter_id;
+    private Integer candidate_id;
 
     @OneToOne
     private User user;
 
-    private String name;
-
-    private String companyName;
-
     @Lob
-    private byte[] companyLogo;
+    private byte[] resumeFile;
 
-    private String companyUrl;
+    private String resumeFileName;
+
+    private String resumeFileType;
 
     @Lob
     private byte[] profilePicture;
-
-
-
 }

@@ -5,7 +5,6 @@ import com.rohan.spring_boot_rest.dto.UserRegisterRequestDto;
 import com.rohan.spring_boot_rest.dto.UserResponseDto;
 import com.rohan.spring_boot_rest.service.JwtService;
 import com.rohan.spring_boot_rest.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,14 +22,17 @@ import java.util.Map;
 @RestController
 public class UserController {
 
-    @Autowired
-    private JwtService jwtService;
+    private final  JwtService jwtService;
+    private final  UserService userService;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private UserService userService;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    public UserController(JwtService jwtService,AuthenticationManager authenticationManager,UserService userService){
+        this.jwtService = jwtService;
+        this.authenticationManager = authenticationManager;
+        this.userService = userService;
+    }
+
 
     @PostMapping("/register")
     public ResponseEntity<UserResponseDto> registerUser(@RequestBody UserRegisterRequestDto userRegisterRequestDto){

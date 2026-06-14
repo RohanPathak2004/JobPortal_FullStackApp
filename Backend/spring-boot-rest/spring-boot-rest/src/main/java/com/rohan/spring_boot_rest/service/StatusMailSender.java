@@ -1,7 +1,6 @@
 package com.rohan.spring_boot_rest.service;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
@@ -10,8 +9,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class StatusMailSender {
 
-    @Autowired
-    private JavaMailSender mailSender;
+
+    private final JavaMailSender mailSender;
+
+    public StatusMailSender(JavaMailSender mailSender){
+        this.mailSender = mailSender;
+    }
 
     @Async
     public void sendStatusMail(String toMail,String name,String status,String jobTitle){

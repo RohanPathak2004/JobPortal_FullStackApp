@@ -14,8 +14,12 @@ import org.springframework.stereotype.Service;
 @Service //it is service so yes we use this annotation
 public class MyUserDetailService implements UserDetailsService {
 
-    @Autowired
-    private UserRepo userRepo; //fetches the user from the database
+
+    private final UserRepo userRepo; //fetches the user from the database
+
+    public MyUserDetailService(UserRepo userRepo){
+        this.userRepo = userRepo;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
