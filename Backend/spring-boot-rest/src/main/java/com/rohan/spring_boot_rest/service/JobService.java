@@ -7,6 +7,7 @@ import com.rohan.spring_boot_rest.model.JobPost;
 import com.rohan.spring_boot_rest.model.Recruiter;
 import com.rohan.spring_boot_rest.repo.JobRepo;
 import com.rohan.spring_boot_rest.repo.RecruiterRepo;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -43,12 +44,9 @@ public class JobService {
         return jobRepo.findAllJobs();
     }
 
-    public ResponseEntity<?> getJob(int postId) {
+    public JobPostDto getJob(int postId) {
         Optional<JobPostDto> o = Optional.ofNullable(jobRepo.findJobById(postId));
-        if(o.isEmpty()){
-            return new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<JobPostDto>(o.get(),HttpStatus.FOUND);
+        return o.orElseThrow(()->new EntityNotFoundException("job post not found"));
     }
 
     public void updateJob(JobPost job) {

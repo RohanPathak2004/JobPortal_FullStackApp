@@ -42,11 +42,12 @@ public class JobRestController {
     //get job by id
     @GetMapping("jobPost/{postId}")
     public ResponseEntity<?> getJob(@PathVariable("postId") int postId){
-        return service.getJob(postId);
+        try{
+            return ResponseEntity.ok(service.getJob(postId));
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
-
-
-
     //dummy values
     @GetMapping("load")
     public String load(){
