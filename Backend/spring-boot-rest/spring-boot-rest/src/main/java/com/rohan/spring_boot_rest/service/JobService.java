@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.*;
 
 @Service
@@ -20,8 +21,6 @@ public class JobService {
 
 
     private final RecruiterRepo recruiterRepo;
-
-
     private final JobRepo jobRepo;
 
     public JobService(JobRepo jobRepo,RecruiterRepo recruiterRepo){
@@ -70,13 +69,13 @@ public class JobService {
 
 
 
-    public ResponseEntity<String> updateRecruiterProfile(RecruiterProfileDto recruiterProfileDto) throws IOException {
+    public ResponseEntity<String> updateRecruiterProfile(RecruiterProfileDto recruiterProfileDto,Principal principal) throws IOException {
 
         //required fields
         String name = recruiterProfileDto.name();
         String companyName = recruiterProfileDto.companyName();
         String companyUrl = recruiterProfileDto.companyUrl();
-        String email = recruiterProfileDto.email();
+        String email = principal.getName();
 
         //optional fields
         MultipartFile profilePicture = recruiterProfileDto.profilePicture();
@@ -92,10 +91,10 @@ public class JobService {
         Recruiter recruiter = recruiterRepo.findByEmail(email);
         recruiter.setName(name);
         recruiter.setCompanyName(companyName);
-        recruiter.setCompanyUrl(companyName);
+        recruiter.setCompanyUrl(companyUrl);
         recruiter.setProfilePicture(profilePictureFile);
         recruiter.setCompanyLogo(companyLogoFile);
-
+        recruiter.setProfileComplete(true);
         recruiterRepo.save(recruiter);
 
         return ResponseEntity.ok("Profile Updated Successfully.");

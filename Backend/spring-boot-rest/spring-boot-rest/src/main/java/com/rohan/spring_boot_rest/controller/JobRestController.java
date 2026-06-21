@@ -1,20 +1,21 @@
 package com.rohan.spring_boot_rest.controller;
 
+
 import com.rohan.spring_boot_rest.dto.*;
 import com.rohan.spring_boot_rest.model.JobPost;
 import com.rohan.spring_boot_rest.service.ApplicationsService;
 import com.rohan.spring_boot_rest.service.JobService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.print.attribute.standard.Media;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
+
+
 
 @RestController //(controller+response body)
 @CrossOrigin
@@ -32,8 +33,8 @@ public class JobRestController {
 
     //get all job posting
     @GetMapping("jobPosts") //return the job from repo->service->controller
-    public List<JobPostDto> getAllJobs(){
-        return service.getAllJobs();
+    public ResponseEntity<List<JobPostDto>> getAllJobs(){
+        return ResponseEntity.ok(service.getAllJobs());
     }
 
 
@@ -57,72 +58,79 @@ public class JobRestController {
 
 
     //recruiter profile
+    @PreAuthorize("hasRole('RECRUITER')")
     @PutMapping(value = "/admin/profile",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> updateRecruiterProfile(@ModelAttribute RecruiterProfileDto recruiterProfileDto){
-        return service.updateRecruiterProfile(recruiterProfileDto);
+    public ResponseEntity<String> updateRecruiterProfile(@ModelAttribute RecruiterProfileDto recruiterProfileDto,Principal principal){
+        try{
+            return service.updateRecruiterProfile(recruiterProfileDto,principal);
+        } catch (IOException e) {
+            return ResponseEntity.internalServerError().body("file processing failed, please try again after few time");
+        }
     }
 
 
     //job post search implementation
     @GetMapping("jobPosts/keyword/{keyword}")
-    public List<JobPostDto> searchByKeyword(@PathVariable("keyword") String Keyword){
-        return service.search(Keyword);
+    public ResponseEntity<List<JobPostDto>> searchByKeyword(@PathVariable("keyword") String Keyword){
+        return ResponseEntity.ok(service.search(Keyword));
     }
 
 
     //get all the job posted by the recruiter
     @PreAuthorize("hasRole('RECRUITER')")
     @GetMapping("/admin/jobPosts")
-    public List<JobPostDto> getAllJobPostedByRecruiter(Principal principal){
+    public ResponseEntity<List<JobPostDto>> getAllJobPostedByRecruiter(Principal principal){
 
-        return service.getAllJobPostedByRecruiter(principal.getName());
+        return ResponseEntity.ok(service.getAllJobPostedByRecruiter(principal.getName()));
     }
 
 
     //create a new job post
     @PreAuthorize("hasRole('RECRUITER')")
     @PostMapping("jobPost") //posts job object into database
-    public void addJob(@RequestBody JobPost post){
+    public ResponseEntity<String> addJob(@RequestBody JobPost post){
         service.addJob(post);
+        return ResponseEntity.status(HttpStatus.CREATED).body("job posted Successfully");
     }
 
 
     //update an existing job post
     @PreAuthorize("hasRole('RECRUITER')")
     @PutMapping("jobPost")
-    public String updateJob(@RequestBody JobPost job){
+    public ResponseEntity<String> updateJob(@RequestBody JobPost job){
         service.updateJob(job);
-        return service.getJob(job.getPostId()).toString();
+        return ResponseEntity.status(HttpStatus.CREATED).body("job post updated Successfully");
     }
 
 
     //deleting a job post
     @PreAuthorize("hasRole('RECRUITER')")
     @DeleteMapping("jobPost/{postId}")
-    public void deleteJob(@PathVariable("postId") Long id){
+    public ResponseEntity deleteJob(@PathVariable("postId") Long id){
         service.deleteJob(Math.toIntExact(id));
+        return ResponseEntity.ok("job post deleted Successfully");
     }
 
     //get all the applications of job posted by recruiter
     @GetMapping("/applications")
     @PreAuthorize("hasRole('RECRUITER')")
-    public List<ApplicationForRecruiterDto> getAllApplications(Principal principal){
+    public ResponseEntity<List<ApplicationForRecruiterDto>> getAllApplications(Principal principal){
         String email = principal.getName();
-        return applicationsService.getAllApplications(email);
+        return ResponseEntity.ok(applicationsService.getAllApplications(email));
     }
 
     //get a job application by id
     @GetMapping("/application/{appId}")
     @PreAuthorize("hasRole('RECRUITER')")
-    public ApplicationDto getApplicationById(@PathVariable("appId") Integer appId){
-        return applicationsService.getApplicationById(appId);
+    public ResponseEntity<ApplicationDto> getApplicationById(@PathVariable("appId") Integer appId){
+        return ResponseEntity.ok(applicationsService.getApplicationById(appId));
     }
 
     //resume of candidate for review
     @GetMapping("/resume/{appId}")
     @PreAuthorize("hasRole('RECRUITER')")
-    public ResumeFileDto getResumeFile(@PathVariable Integer appId){
-        return applicationsService.getResumeFile(appId);
+    public ResponseEntity<ResumeFileDto> getResumeFile(@PathVariable Integer appId){
+        return ResponseEntity.ok(applicationsService.getResumeFile(appId));
     }
 
 
@@ -147,21 +155,21 @@ public class JobRestController {
     //get applications applied by candidate for the Job Post
     @GetMapping("/candidate/applications")
     @PreAuthorize("hasRole('CANDIDATE')")
-    public List<ApplicationDto> getAllApplicationsForCandidate(Principal principal){
-        return applicationsService.getAllApplicationsForCandidate(principal);
+    public ResponseEntity<List<ApplicationDto>> getAllApplicationsForCandidate(Principal principal){
+        return ResponseEntity.ok(applicationsService.getAllApplicationsForCandidate(principal));
     }
 
 
     //candidate to apply on a job post
     @PostMapping("/apply")
-    public String apply(@RequestParam String name, @RequestParam String email, @RequestParam int jobId, @RequestParam MultipartFile resumeFile)
+    public ResponseEntity<String> apply(@RequestParam String name, @RequestParam String email, @RequestParam int jobId, @RequestParam MultipartFile resumeFile)
     {
 
         try{
             applicationsService.apply(name,email,jobId,resumeFile);
-            return "applied Successfully";
+            return ResponseEntity.ok("applied Successfully");
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            return ResponseEntity.internalServerError().body("Something went wrong please try again.");
         }
 
     }

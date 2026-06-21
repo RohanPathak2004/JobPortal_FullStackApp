@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.util.List;
 
@@ -34,6 +35,8 @@ public class Recruiter {
     @Lob
     private byte[] profilePicture;
 
-
+    @Column(nullable = false)
+    @ColumnDefault("false")
+    private boolean isProfileComplete = false;
 
 }

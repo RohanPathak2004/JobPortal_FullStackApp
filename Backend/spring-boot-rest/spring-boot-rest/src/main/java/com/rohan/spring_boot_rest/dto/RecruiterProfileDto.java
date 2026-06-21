@@ -6,7 +6,6 @@ public record RecruiterProfileDto(
         String name,
         String companyName,
         String companyUrl,
-        String email,
         MultipartFile companyLogo,
         MultipartFile profilePicture
 ) {

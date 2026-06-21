@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Entity
 @AllArgsConstructor
@@ -27,4 +29,8 @@ public class Candidate {
 
     @Lob
     private byte[] profilePicture;
+
+    private String name;
+    private List<String> publicUrls;
+    private String about;
 }
