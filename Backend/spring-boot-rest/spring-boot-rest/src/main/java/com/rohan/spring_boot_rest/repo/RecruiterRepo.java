@@ -13,4 +13,10 @@ public interface RecruiterRepo extends JpaRepository<Recruiter,Integer> {
     @Query(value = "select * from recruiter where email  = :email",nativeQuery = true)
     Recruiter findByEmail(@Param("email") String email);
 
+
+
+    @Query(value = " select recruiter.is_profile_complete "+
+            "from recruiter where email = :email ",nativeQuery = true)
+    Boolean isProfileComplete(@Param("email") String email);
+
 }

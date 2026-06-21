@@ -33,4 +33,7 @@ public class Candidate {
     private String name;
     private List<String> publicUrls;
     private String about;
+
+
+    private Boolean isProfileComplete;
 }

@@ -27,6 +27,7 @@ public class JobRestController {
 
     //constructor injection
     public JobRestController(JobService service,ApplicationsService applicationsService){
+
         this.applicationsService = applicationsService;
         this.service = service;
     }
@@ -68,6 +69,12 @@ public class JobRestController {
         }
     }
 
+    @PreAuthorize("hasRole('RECRUITER')")
+    @GetMapping("/admin/profileStatus")
+    public ResponseEntity<Boolean> isProfileComplete(Principal principal){
+        String email = principal.getName();
+        return ResponseEntity.ok(service.isProfileComplete(email));
+    }
 
     //job post search implementation
     @GetMapping("jobPosts/keyword/{keyword}")
