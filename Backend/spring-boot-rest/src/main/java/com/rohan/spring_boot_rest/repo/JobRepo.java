@@ -16,7 +16,7 @@ import java.util.List;
 public interface JobRepo extends JpaRepository<JobPost,Integer> {
 
 
-    @Query(value = "select job_post.post_id,job_post.post_desc, job_post.post_profile,job_post.post_tech_stack, job_post.req_experience,recruiter.company_name,recruiter.company_logo,recruiter.company_url From job_post join recruiter on job_post.email = recruiter.email WHERE " +
+    @Query(value = "select job_post.post_id,job_post.post_desc, job_post.post_profile,job_post.post_tech_stack, job_post.req_experience,recruiter.company_name,recruiter.company_logo_url,recruiter.company_url, recruiter.profile_picture_url From job_post join recruiter on job_post.email = recruiter.email WHERE " +
             "LOWER(job_post.post_profile) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
             "LOWER(job_post.post_desc) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
             "EXISTS (" +
@@ -27,15 +27,15 @@ public interface JobRepo extends JpaRepository<JobPost,Integer> {
     List<JobPostDto> searchJobPost(@Param("keyword") String keyword);
 
     @Query(value = "select job_post.post_id, job_post.post_desc, job_post.post_profile, job_post.post_tech_stack, job_post.req_experience,"+
-            "recruiter.company_name, recruiter.company_logo, recruiter.company_url from job_post left join recruiter on job_post.email = recruiter.email", nativeQuery = true)
+            "recruiter.company_name, recruiter.company_logo_url, recruiter.company_url, recruiter.profile_picture_url from job_post left join recruiter on job_post.email = recruiter.email", nativeQuery = true)
     List<JobPostDto> findByEmail(String email);
 
 
-    @Query(value = "select job_post.post_id,job_post.post_desc, job_post.post_profile,job_post.post_tech_stack, job_post.req_experience,recruiter.company_name,recruiter.company_logo,recruiter.company_url From job_post join recruiter on job_post.email = recruiter.email",nativeQuery = true)
+    @Query(value = "select job_post.post_id,job_post.post_desc, job_post.post_profile,job_post.post_tech_stack, job_post.req_experience,recruiter.company_name,recruiter.company_logo_url,recruiter.profile_picture_url,recruiter.company_url From job_post join recruiter on job_post.email = recruiter.email",nativeQuery = true)
     List<JobPostDto> findAllJobs();
 
     @Query(value = "select job_post.post_id, job_post.post_desc, job_post.post_profile, job_post.post_tech_stack, job_post.req_experience,"+
-            "recruiter.company_name, recruiter.company_logo, recruiter.company_url from job_post left join recruiter on job_post.email = recruiter.email where job_post.post_id = :id", nativeQuery = true)
+            "recruiter.company_name, recruiter.company_logo_url, recruiter.profile_picture_url, recruiter.company_url from job_post left join recruiter on job_post.email = recruiter.email where job_post.post_id = :id", nativeQuery = true)
     JobPostDto findJobById(@Param("id") Integer id);
 
 

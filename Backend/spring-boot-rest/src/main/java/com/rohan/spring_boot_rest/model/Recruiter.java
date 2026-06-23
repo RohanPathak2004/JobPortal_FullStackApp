@@ -27,13 +27,12 @@ public class Recruiter {
 
     private String companyName;
 
-    @Lob
-    private byte[] companyLogo;
-
+    private String companyLogoUrl;
+    private String companyLogoPublicId;
     private String companyUrl;
 
-    @Lob
-    private byte[] profilePicture;
+    private String profilePictureUrl;
+    private String ProfilePicturePublicId;
 
     @Column(nullable = false)
     @ColumnDefault("false")

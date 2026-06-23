@@ -8,7 +8,6 @@ import com.rohan.spring_boot_rest.model.Recruiter;
 import com.rohan.spring_boot_rest.repo.JobRepo;
 import com.rohan.spring_boot_rest.repo.RecruiterRepo;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,10 +23,12 @@ public class JobService {
 
     private final RecruiterRepo recruiterRepo;
     private final JobRepo jobRepo;
+    private final CloudinaryService cloudinaryService;
 
-    public JobService(JobRepo jobRepo,RecruiterRepo recruiterRepo){
+    public JobService(JobRepo jobRepo,RecruiterRepo recruiterRepo,CloudinaryService cloudinaryService){
         this.jobRepo = jobRepo;
         this.recruiterRepo = recruiterRepo;
+        this.cloudinaryService = cloudinaryService;
     }
 
 
@@ -62,7 +63,6 @@ public class JobService {
         return jobRepo.searchJobPost(Keyword);
     }
 
-    @Transactional
     public List<JobPostDto> getAllJobPostedByRecruiter(String email) {
         return jobRepo.findByEmail(email);
     }
@@ -80,20 +80,36 @@ public class JobService {
         //optional fields
         MultipartFile profilePicture = recruiterProfileDto.profilePicture();
         MultipartFile companyLogo = recruiterProfileDto.companyLogo();
-        byte[] profilePictureFile = profilePicture.getBytes();
-        byte[] companyLogoFile = companyLogo.getBytes();
-
 
         if(Objects.equals(name, "") ||Objects.equals(companyName, "")||Objects.equals(companyUrl, "")) return ResponseEntity.badRequest().body("All the fields are Required");
-
-
 
         Recruiter recruiter = recruiterRepo.findByEmail(email);
         recruiter.setName(name);
         recruiter.setCompanyName(companyName);
         recruiter.setCompanyUrl(companyUrl);
-        recruiter.setProfilePicture(profilePictureFile);
-        recruiter.setCompanyLogo(companyLogoFile);
+
+        try{
+            if(!profilePicture.isEmpty()){
+                Map result = cloudinaryService.upload(profilePicture);
+                String profilePictureUrl = (String)result.get("secure_url");
+                String profilePicturePubicId = (String)result.get("public_id");
+                recruiter.setProfilePictureUrl(profilePictureUrl);
+                recruiter.setProfilePicturePublicId(profilePicturePubicId);
+
+            }
+            if(!companyLogo.isEmpty()){
+                Map result = cloudinaryService.upload(companyLogo);
+                String companyLogoUrl = (String)result.get("secure_url");
+                String companyLogoPublicId = (String)result.get("public_id");
+                recruiter.setCompanyLogoUrl(companyLogoUrl);
+                recruiter.setCompanyLogoPublicId(companyLogoPublicId);
+
+            }
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("File Upload Failed");
+        }
+
+
         recruiter.setProfileComplete(true);
         recruiterRepo.save(recruiter);
 

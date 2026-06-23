@@ -9,7 +9,8 @@ public interface JobPostDto{
         String getPostProfile();
         String getPostTechStack();
         Integer getRequiredExp();
-        byte[] getCompanyLogo();
+        String getCompanyLogoUrl();
+        String getProfilePictureUrl();
         String getCompanyUrl();
         String getCompanyName();
 }
