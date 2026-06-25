@@ -30,7 +30,7 @@ const Home = () => {
                 {loading && <div>
                     <h2 className="flex items-center justify-center">loading....</h2>
                 </div>}
-                <div className="flex flex-col gap-4 items-center py-4 overflow-auto mb-5">
+                <div className="flex flex-col gap-6 items-center py-4 overflow-auto mb-5">
                     {jobPosts.map((job, idx) => (
                         <div className="w-3/4">
                             <Link to={`/jobPost/${job.postId}`} state={job}>

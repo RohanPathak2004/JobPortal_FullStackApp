@@ -49,6 +49,7 @@ const JobContextProvider = ({children}) => {
         fetchJobPosts();
     }, [reload, token,])
 
+    console.log(jobPosts);
 
     const contextValues =
         {

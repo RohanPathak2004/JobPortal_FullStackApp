@@ -22,6 +22,7 @@ const UserDashboard = () => {
         fetchApplications();
     },[user,token])
 
+  console.log("hello world");
     return (
         <div className='py-8 border border-zinc-300 px-4 h-screen flex flex-col dark:bg-slate-900 dark:border-zinc-700'>
             <h1 className='text-3xl font-medium'>Welcome, {username}</h1>

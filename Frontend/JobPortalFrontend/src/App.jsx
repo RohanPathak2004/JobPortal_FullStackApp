@@ -1,5 +1,5 @@
 import './App.css'
-import {Route, Router, Routes, useNavigate} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import NavigationBar from "./components/NavigationBar.jsx";
 import AddJob from "./pages/AddJob.jsx";
@@ -10,7 +10,6 @@ import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import ValidationContext, {useAuthContext} from "./context/AuthContext.jsx";
 import ValidationContextProvider from "./context/AuthContext.jsx";
-import {useContext, useEffect} from "react";
 import JobPost from "./pages/JobPost.jsx";
 import AuthContextProvider from "./context/AuthContext.jsx";
 import HomeLayout from "./pages/HomeLayout.jsx";
