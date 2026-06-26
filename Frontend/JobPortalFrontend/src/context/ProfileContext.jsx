@@ -1,0 +1,3 @@
+const ProfileContextProvider = ({children})=>{
+    //logic
+}

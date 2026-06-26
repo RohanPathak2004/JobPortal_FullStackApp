@@ -1,8 +1,8 @@
 import React, {useContext, useState} from 'react'
-import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {JobContext} from "../context/JobContext.jsx";
 import {useAuthContext} from "../context/AuthContext.jsx";
+import {postJob} from "../api-service/postJob.js";
 
 
 
@@ -42,15 +42,15 @@ const AddJob = () => {
             postId: null
         };
 
-        try {
-            await axios.post("http://localhost:8080/jobPost", jobData, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
+        try{
+            await postJob(jobData,token);
             setReload(prev => !prev);
             navigate("/");
-        } catch (err) {
-            console.error("Submission error:", err.message);
+        }catch (err){
+            console.log("Submission error: ",err.message );
         }
+
+
     };
 
     return (

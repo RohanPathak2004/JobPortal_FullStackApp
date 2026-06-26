@@ -2,6 +2,7 @@ import {createContext, useContext, useEffect, useMemo, useState} from "react";
 import axios from "axios";
 import {AuthContext} from "./AuthContext.jsx";
 import {useNavigate} from "react-router-dom";
+import {getAllJobs} from "../api-service/getAllJobs.js";
 
 export const JobContext = createContext({});
 
@@ -23,31 +24,22 @@ const JobContextProvider = ({children}) => {
     const navigate = useNavigate();
     const {token} = useContext(AuthContext);
 
-
-    const fetchJobPosts = async () => {
-        setLoading(true);
+    const fetchJobsData = async () => {
         try {
-            const response = await axios.get("http://localhost:8080/jobPosts",{
-                headers:{
-                    'Authorization': `Bearer ${token?token:null}`
-                }
-            }).then(res=>setJobPosts(res.data))
-                .catch(err=>{
-                    if (err.response.status === 401) {
-                        navigate("/login");
-                    }
-                });
-
-        } catch (error) {
-            setError(error.toString());
+            setLoading(true);
+            const data = await getAllJobs(token); // Using the service method here
+            console.log(data);
+            setJobPosts(data);
+        } catch (err) {
+            setError(err.message || 'Something went wrong');
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     }
-
-
     useEffect(() => {
-        fetchJobPosts();
-    }, [reload, token,])
+        fetchJobsData();
+    }, [reload, token]);
+
 
     console.log(jobPosts);
 
@@ -61,7 +53,6 @@ const JobContextProvider = ({children}) => {
             setReload,
             techStacks,
         }
-
 
 
     return (

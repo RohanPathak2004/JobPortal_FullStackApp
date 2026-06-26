@@ -1,34 +1,30 @@
-import React, {useContext, useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import SearchIcon from "../components/SearchIcon.jsx";
 import {JobContext} from "../context/JobContext.jsx";
 import {Link} from "react-router-dom";
 import JobPostCard from "../components/JobPostCard.jsx";
-import axios from "axios";
 import {useAuthContext} from "../context/AuthContext.jsx";
+import {searchService} from "../api-service/searchService.js";
 
 const Search = () => {
-    const {techStacks} = useContext(JobContext);
     const [searchedValue,setSearchedValue] = useState("");
     const [searchedPosts,setSearchPosts] = useState([]);
 
     const {token} = useAuthContext();
 
-    const handleSearching = async (keyword) =>{
-        try{
-            const res = await axios.get(`http://localhost:8080/jobPosts/keyword/${keyword}`,{
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
-            });
-            const data = res.data;
-            setSearchPosts(data);
-        }catch (e){
-            console.log(e.message);
-        }
-    }
     useEffect(()=>{
+        const handleSearching = async (keyword) =>{
+            try{
+                const searchResult = await searchService(keyword,token);
+                setSearchPosts(searchResult);
+            }catch (e){
+                console.log(e.message);
+            }
+        }
         handleSearching(searchedValue);
     },[searchedValue])
+
+
     return (
         <div className='flex flex-col justify-center'>
             <div className="w-[95%] z-10 mt-5 relative ">
@@ -46,7 +42,7 @@ const Search = () => {
             <div>
                 <div className="flex flex-col gap-4 items-center mt-20 overflow-y-auto mb-5 transition-all">
                     {searchedPosts.map((job,idx)=>(
-                        <div className="w-3/4">
+                        <div id={idx} className="w-3/4">
                                 <JobPostCard jobPost={job} />
                         </div>
                     ))}

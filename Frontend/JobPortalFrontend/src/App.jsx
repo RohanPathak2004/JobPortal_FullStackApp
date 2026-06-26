@@ -19,6 +19,7 @@ import JobPostedByAdmin from "./pages/JobPostedByAdmin.jsx";
 import Applications from "./pages/Applications.jsx";
 import ApplicationReview from "./pages/ApplicationReview.jsx";
 import Container from "./components/Container.jsx";
+import Profile from "./pages/Profile.jsx";
 
 const RecruiterRoute = () => {
     const {user} = useAuthContext();
@@ -39,7 +40,7 @@ function App() {
         path: 'applications',
         element: <Applications/>,
     }, {
-        path: 'addJob',
+        path: 'postJob',
         element: <AddJob/>,
     }
 
@@ -73,6 +74,7 @@ function App() {
                             />
                             <Route path={'/review/application/:applicationId'} element={<ApplicationReview/>}/>
                             <Route path="/jobPost/:postId" element={<RecruiterRoute/>}></Route>
+                            <Route  path="/profile" element={<Profile/>}/>
                         </>
                         }
                     </Routes>

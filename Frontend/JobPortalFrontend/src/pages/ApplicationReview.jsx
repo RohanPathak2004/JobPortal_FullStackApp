@@ -7,12 +7,13 @@ import BackButton from "../components/BackButton.jsx";
 import ApplicationStatus from "../components/ApplicationStatus.jsx";
 import authContext, {useAuthContext} from "../context/AuthContext.jsx";
 import axios from "axios";
+import {getApplicationById} from "../api-service/getApplicationById.js";
+import {getResumeById} from "../api-service/getResumeById.js";
 
 const ApplicationReview = () => {
     const {token} = useAuthContext();
     const [data, setData] = useState();
     const [reload, setReload] = useState(true);
-    const [statusTheme,setStatusTheme] = useState("");
     const [file, setFile] = useState({
         filename: "",
         fileData: "",
@@ -21,33 +22,30 @@ const ApplicationReview = () => {
     const location = useLocation();
     const appId = location.state;
     console.log(data);
-    const fetchApplication = async () => {
-        const res = await axios.get(`http://localhost:8080/application/${appId}`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }).then((res) => {
-            setData(res.data);
-        })
-            .catch((err) => console.log(err));
 
-    }
-
-    const fetchResumeFile = async () => {
-        await axios.get(`http://localhost:8080/resume/${appId}`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }).then((res) => {
-            setFile({
-                filename: res.data.resumeName,
-                filetype: res.data.resumeType,
-                fileData: res.data.resumeFile
-            })
-        })
-    }
 
     useEffect(() => {
+        const fetchApplication = async () => {
+            try{
+                const applicationData = await getApplicationById(appId,token);
+                setData(applicationData);
+            }catch(err){
+                console.log(err);
+            }
+        }
+
+        const fetchResumeFile = async () => {
+            try{
+                const fileData = await getResumeById(appId,token);
+                setFile({
+                    filename: fileData.resumeName,
+                    filetype: fileData.resumeType,
+                    fileData: fileData.resumeFile
+                })
+            }catch(err){
+                console.log(err);
+            }
+        }
         fetchApplication();
         fetchResumeFile();
     }, [appId, reload])

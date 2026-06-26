@@ -30,7 +30,7 @@ const NavigationBar = () => {
                 </li>
                 {user?.role === 'RECRUITER' ? <li
                     className="transition duration-300 hover:text-zinc-900 dark:hover:text-white">
-                    <Link to="/addJob">
+                    <Link to="/postJob">
                         Add Job
                     </Link>
                 </li> : null}

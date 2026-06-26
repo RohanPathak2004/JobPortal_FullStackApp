@@ -1,14 +1,13 @@
-import React, {useContext, useEffect, useState} from 'react'
-import jobContext, {JobContext} from "../context/JobContext.jsx";
+import React, {useContext, useEffect} from 'react'
+import  {JobContext} from "../context/JobContext.jsx";
 import JobPostCard from "../components/JobPostCard.jsx";
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {useAuthContext} from "../context/AuthContext.jsx";
-import Search from "./Search.jsx";
 
 
 
 const Home = () => {
-    const {jobPosts,setJobPosts, setLoading, loading,reload} = useContext(JobContext);
+    const {jobPosts,setJobPosts,  loading} = useContext(JobContext);
     const {user} = useAuthContext();
 
     useEffect(() => {
@@ -16,11 +15,6 @@ const Home = () => {
             setJobPosts([]);
         }
     }, [user]);
-
-    const navigate = useNavigate();
-
-    // console.log(jobPosts);
-
 
 
     return (

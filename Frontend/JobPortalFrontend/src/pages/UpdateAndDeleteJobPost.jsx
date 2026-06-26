@@ -1,8 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react'
 import {JobContext} from "../context/JobContext.jsx";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
-import axios from "axios";
 import {useAuthContext} from "../context/AuthContext.jsx";
+import {deleteJobPost} from "../api-service/deleteJobPost.js";
 
 const UpdateAndDeleteJobPost = () => {
 
@@ -55,12 +55,7 @@ const UpdateAndDeleteJobPost = () => {
     }
     const updateJob = async () => {
         try {
-            const res = await axios.put("http://localhost:8080/jobPost", newJob,{
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            const data = res.data;
+            const message = await updateJob(newJob,token);
             setReload(prev => !prev);
             navigate("/");
         } catch (e) {
@@ -70,12 +65,7 @@ const UpdateAndDeleteJobPost = () => {
     const handleDeleteJobPost = async () => {
         alert("Are You sure, You want to Delete this Post");
         try {
-            const res = await axios.delete(`http://localhost:8080/jobPost/${postId}`,{
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            const data = res.data;
+            const message = await deleteJobPost(postId,token);
             setReload(prev => !prev);
             navigate("/");
         } catch (e) {

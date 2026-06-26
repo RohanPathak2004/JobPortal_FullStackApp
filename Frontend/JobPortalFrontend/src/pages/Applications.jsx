@@ -1,32 +1,32 @@
 import React, {useEffect, useState} from 'react'
-import axios from "axios";
 import {useAuthContext} from "../context/AuthContext.jsx";
 import ApplicationCard from "../components/ApplicationCard.jsx";
+import {getApplications} from "../api-service/getApplications.js";
 
 const Applications = () => {
 
     const [applications, setApplications] = useState([]);
     const {token} = useAuthContext();
-    const getApplications =  async()=>{
-        const res = await axios.get('http://localhost:8080/applications',{
-            headers: {
-                Authorization : `Bearer ${token}`
+
+    useEffect(() => {
+        const fetchApplications = async () => {
+            try {
+                const data = await getApplications(token);
+                setApplications(data);
+            } catch (err) {
+                console.error(err);
             }
-        }).then(res=>setApplications(res.data))
-    }
-
-
-    useEffect(()=>{
-        getApplications();
-    },[token]);
+        }
+        fetchApplications();
+    }, [token]);
     console.log(applications);
     return (
         <div>
-            {applications.length>0?applications.map((application,idx)=>(
-                <li key={idx} className={'list-none '}>
-                    <ApplicationCard application={application} />
-                </li>
-            )):
+            {applications.length > 0 ? applications.map((application, idx) => (
+                    <li key={idx} className={'list-none '}>
+                        <ApplicationCard application={application}/>
+                    </li>
+                )) :
                 <p>
                     No active Applications
                 </p>}

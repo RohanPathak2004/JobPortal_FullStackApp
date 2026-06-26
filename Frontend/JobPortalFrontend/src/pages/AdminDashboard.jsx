@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react'
 import {Link, useLocation} from "react-router-dom";
 import {Outlet} from "react-router";
-import addJob from "./AddJob.jsx";
+import postJob from "./AddJob.jsx";
 
 const AdminDashboard = () => {
     const location = useLocation();
@@ -53,10 +53,10 @@ const AdminDashboard = () => {
                                 Applications
                             </Link>
                             <Link
-                                to="addJob"
-                                onClick={()=>setPanel('addJob')}
+                                to="postJob"
+                                onClick={()=>setPanel('postJob')}
                                 className={`flex items-center justify-center py-2 px-4 rounded-md text-sm font-medium transition-all duration-200 ${
-                                    panel==='addJob'
+                                    panel==='postJob'
                                         ? 'bg-white dark:text-white dark:bg-gray-700 text-green-700 shadow-sm'
                                         : 'text-gray-600 hover:text-gray-900 dark:hover:text-white'
                                 }`}

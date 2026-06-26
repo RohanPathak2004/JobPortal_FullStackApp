@@ -1,88 +1,87 @@
-import {use, useContext, useState} from "react";
-import {Link, useNavigate} from "react-router-dom";
-import axios from "axios";
-import {AuthContext} from "../context/AuthContext.jsx";
-
+import { useContext, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { jwtDecode } from 'jwt-decode'
+import { AuthContext } from '../context/AuthContext.jsx'
+import checkProfileStatus from '../api-service/isProfileComplete.js'
+import {loginService} from "../api-service/loginService.js";
 
 const Login = () => {
-
     const [userCredentials, setUserCredentials] = useState({
         email: '',
-        password: ''
+        password: '',
     })
-    const [seePassword, setSeePassword] = useState(false);
-    const [password, setPassword] = useState('');
-    const [noMatch, setNomatch] = useState(true);
-    const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
-    const navigate = useNavigate();
-
-
-    const {setToken} = useContext(AuthContext);
+    const [seePassword, setSeePassword] = useState(false)
+    const [noMatch, setNomatch] = useState(true)
+    const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/
+    const navigate = useNavigate()
+    const { setToken } = useContext(AuthContext)
 
     const onChangePassword = (e) => {
-        const newPassword = e.currentTarget.value;
-        setUserCredentials({...userCredentials, password: newPassword});
-
-        if (!pattern.test(newPassword)) {
-            setNomatch(true);
-        } else {
-            setNomatch(false);
-        }
-
+        const newPassword = e.currentTarget.value
+        setUserCredentials({ ...userCredentials, password: newPassword })
+        setNomatch(!pattern.test(newPassword))
     }
 
     const handleLogin = async (e) => {
-        e.preventDefault();
-        if (userCredentials.password.length > 0 && pattern.test(userCredentials.password)) {
-            try {
-                const res = await axios.post('http://localhost:8080/login', userCredentials);
-                setToken(res.data);
-                navigate('/');
-            } catch (error) {
-                console.error("Login failed:", error);
-                alert("Login failed. Please check your credentials.");
+        e.preventDefault()
+        if (userCredentials.password.length === 0 || !pattern.test(userCredentials.password)) {
+            return
+        }
+
+        try{
+            const newToken = await loginService(userCredentials);
+            setToken(newToken)
+            const { role } = jwtDecode(newToken)
+            const isComplete = await checkProfileStatus(newToken, role)
+
+            if (isComplete) {
+                navigate('/')
+            } else {
+                navigate('/profile')
             }
-        } else return;
-
-
+        } catch (error) {
+            console.error('Login failed:', error)
+            alert('Login failed. Please check your credentials.')
+        }
     }
 
-    // console.log(userCredentials);
-
     return (
-
-            <div className={' w-full h-full flex  justify-center items-center  px-8 py-5 '}>
-
-
-                <form  onSubmit={(e) => handleLogin(e)}
-                      className='bg-white w-full md:mt-25   md:w-[50%] md:gap-8 md:px-8 flex flex-col gap-8 shadow-zince-600 border-zinc-900  shadow-xl px-4 py-5 dark:bg-slate-950 dark:border dark:border-slate-700'>
-                    <div className='w-full flex flex-col justify-center gap-1 '>
-                        <label className='text-[1.2rem] md:text-[1.1rem] font-medium text-zinc-950  dark:text-neutral-100'>Email</label>
-                        <input value={userCredentials.email}
-                               placeholder='Email'
-                               onChange={(e) => setUserCredentials({...userCredentials, email: e.target.value})}
-                               className=' px-2 py-1 focus:outline-zinc-400 bg-gray-100  border border-gray-200 rounded-md dark:bg-slate-800 dark:border-slate-700'
-                               required type={'email'}/>
+        <div className={' w-full h-full flex  justify-center items-center  px-8 py-5 '}>
+            <form
+                onSubmit={handleLogin}
+                className="bg-white w-full md:mt-25   md:w-[50%] md:gap-8 md:px-8 flex flex-col gap-8 shadow-zince-600 border-zinc-900  shadow-xl px-4 py-5 dark:bg-slate-950 dark:border dark:border-slate-700"
+            >
+                <div className="w-full flex flex-col justify-center gap-1 ">
+                    <label className="text-[1.2rem] md:text-[1.1rem] font-medium text-zinc-950  dark:text-neutral-100">
+                        Email
+                    </label>
+                    <input
+                        value={userCredentials.email}
+                        placeholder="Email"
+                        onChange={(e) => setUserCredentials({ ...userCredentials, email: e.target.value })}
+                        className=" px-2 py-1 focus:outline-zinc-400 bg-gray-100  border border-gray-200 rounded-md dark:bg-slate-800 dark:border-slate-700"
+                        required
+                        type={'email'}
+                    />
+                </div>
+                <div className="w-full flex flex-col gap-2">
+                    <label className="text-[1.2rem] md:text-[1.1rem] font-medium ">Password</label>
+                    <input
+                        placeholder="Enter password"
+                        className={`${noMatch ? 'focus:outline-red-200' : 'focus:outline-green-200'} bg-gray-100  border-1 border-gray-200 rounded-lg px-2 py-1 focus:outline-green-200 dark:bg-slate-800 dark:border-slate-700`}
+                        type={seePassword ? 'text' : 'password'}
+                        id="password"
+                        name="password"
+                        required
+                        onChange={onChangePassword}
+                    />
+                    <div className="flex  md:justify-start justify-end gap-1 items-center">
+                        <input type={'checkbox'} onChange={(e) => setSeePassword(e.target.checked)} />
+                        <span>See Password</span>
                     </div>
-                    <div className='w-full flex flex-col gap-2'>
-                        <label className='text-[1.2rem] md:text-[1.1rem] font-medium '>Password</label>
-                        <input
-                            placeholder="Enter password"
-                            className={`${noMatch ? 'focus:outline-red-200' : 'focus:outline-green-200'} bg-gray-100  border-1 border-gray-200 rounded-lg px-2 py-1 focus:outline-green-200 dark:bg-slate-800 dark:border-slate-700`}
-                            type={seePassword ? 'text' : 'password'}
-                            id="password"
-                            name="password"
 
-                            required
-                            onChange={(e) => onChangePassword(e)}
-
-                        />
-                        <div className='flex  md:justify-start justify-end gap-1 items-center'>
-                            <input type={"checkbox"} onChange={(e) => setSeePassword(e.target.checked)}/>
-                            <span>See Password</span>
-                        </div>
-
-                        {userCredentials.password.length > 0 && <div className='text-sm md:text-[1.1rem]'>
+                    {userCredentials.password.length > 0 && (
+                        <div className="text-sm md:text-[1.1rem]">
                             <ol className={`${noMatch ? 'text-red-600' : 'text-green-700'} list-disc px-4`}>
                                 <li>At least one UPPER case character [A-Z].</li>
                                 <li>At least one lower case character [a-z].</li>
@@ -90,24 +89,28 @@ const Login = () => {
                                 <li>Contains numbers.</li>
                                 <li>Length of the password must be at least 8.</li>
                             </ol>
-                        </div>}
-                    </div>
-                    <div className='w-full flex justify-center items-center'>
-                        <button type={'submit'}
-                                className='font-bold
-                                 w-25 bg-blue-500 hover:bg-blue-500 text-white px-4 py-2 text-center md:w-2/6  md:py-2 md:text-[1.2rem] md:rounded-lg rounded-lg cursor-pointer '>Login
-                        </button>
-                    </div>
-                    <div className='w-full text-center'>
-                        <h2>Don't have an Account, <span
-                            className='text-blue-500 hover:underline hover:underline-offset-1 hover:text-blue-600'><Link
-                            to={'/register'}>Register</Link></span></h2>
-                    </div>
-                </form>
-            </div>
-
+                        </div>
+                    )}
+                </div>
+                <div className="w-full flex justify-center items-center">
+                    <button
+                        type={'submit'}
+                        className="font-bold w-25 bg-blue-500 hover:bg-blue-500 text-white px-4 py-2 text-center md:w-2/6  md:py-2 md:text-[1.2rem] md:rounded-lg rounded-lg cursor-pointer "
+                    >
+                        Login
+                    </button>
+                </div>
+                <div className="w-full text-center">
+                    <h2>
+                        Don't have an Account,{' '}
+                        <span className="text-blue-500 hover:underline hover:underline-offset-1 hover:text-blue-600">
+                            <Link to={'/register'}>Register</Link>
+                        </span>
+                    </h2>
+                </div>
+            </form>
+        </div>
     )
-
 }
 
-export default Login;
+export default Login

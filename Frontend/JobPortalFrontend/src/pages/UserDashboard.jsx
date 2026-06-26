@@ -1,20 +1,15 @@
 import React, {useEffect, useState} from 'react'
 import {useAuthContext} from "../context/AuthContext.jsx";
-import axios from "axios";
 import ApplicationCardForCandidate from "../components/ApplicationCardForCandidate.jsx";
+import {getCandidateApplications} from "../api-service/getCandidateApplications.js";
 
 const UserDashboard = () => {
     const[username,setUsername] = useState("");
     const {user,token} = useAuthContext();
     const[applications, setApplications] = useState([]);
     const fetchApplications = async ()=>{
-        await axios.get('http://localhost:8080/candidate/applications',{
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }).then(res=>{
-            setApplications(res.data)
-        }).catch(err => console.log(err));
+        const data =await getCandidateApplications(token);
+        setApplications(data);
     }
     console.log(applications)
     useEffect(()=>{
@@ -22,7 +17,6 @@ const UserDashboard = () => {
         fetchApplications();
     },[user,token])
 
-  console.log("hello world");
     return (
         <div className='py-8 border border-zinc-300 px-4 h-screen flex flex-col dark:bg-slate-900 dark:border-zinc-700'>
             <h1 className='text-3xl font-medium'>Welcome, {username}</h1>

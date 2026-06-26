@@ -1,37 +1,33 @@
 import React, {useEffect, useState} from 'react'
 import {useAuthContext} from "../context/AuthContext.jsx";
-import axios from "axios";
 import JobPostCard from "../components/JobPostCard.jsx";
 import {Link, useNavigate} from "react-router-dom";
+import {getJobByAdmin} from "../api-service/getJobByAdmin.js";
 
 const JobPostedByAdmin = () => {
     // console.log('JobPostedByAdmin');
     const navigate = useNavigate();
     const [posts, setPosts] = useState([]);
-    const {token} = useAuthContext();
-    const fetchAllPosts = async () => {
-        await axios.get('http://localhost:8080/admin/jobPosts',{
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        }).then(res => setPosts(res.data)).catch((res)=>{
-            if(res.status === 401) {
-                navigate('/login');
-            }
-        })
-    }
+    const {user,token} = useAuthContext();
+    // console.log(user);
+
     // console.log(posts);
     useEffect(() => {
-        try{
-            fetchAllPosts();
-        }catch (e){
-            console.log(e);
+        const fetchAllPosts = async () => {
+            try{
+                const data = await getJobByAdmin(token);
+                setPosts(data);
+            }catch(err){
+                console.log(err)
+                navigate('/login');
+            }
         }
+        fetchAllPosts();
     }, [token]);
     return (
         <div className={'flex flex-col gap-4'}>
             {
-                posts?.map((post,)=>(
+                posts?.length>0?posts.map((post,)=>(
                     <div className={'flex flex-col items-center gap-1 md:flex-row md:justify-between md:items-center'} key={post.id}>
                         <div className={'md:h-[320px] w-full  mx-3 '}>
                             <JobPostCard  jobPost={post}/>
@@ -44,7 +40,7 @@ const JobPostedByAdmin = () => {
 
                         </button>
                     </div>
-                ))
+                )):<div>No Job posts.</div>
             }
         </div>
     )
