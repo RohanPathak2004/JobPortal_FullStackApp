@@ -1,8 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react'
-import {JobContext} from "../context/JobContext.jsx";
+import {JobContext} from "../../context/JobContext.jsx";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
-import {useAuthContext} from "../context/AuthContext.jsx";
-import {deleteJobPost} from "../api-service/deleteJobPost.js";
+import {useAuthContext} from "../../context/AuthContext.jsx";
+import {deleteJobPost} from "../../api-service/deleteJobPost.js";
 
 const UpdateAndDeleteJobPost = () => {
 

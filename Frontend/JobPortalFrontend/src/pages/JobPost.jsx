@@ -1,7 +1,6 @@
 import {useParams} from 'react-router-dom'
 import {useEffect, useState} from 'react'
 import {useAuthContext} from '../context/AuthContext.jsx'
-import axios from 'axios'
 import ApplyPopUp from '../components/ApplyPopUp.jsx'
 import {getJobPostById} from "../api-service/getJobPostById.js";
 

@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import axios from "axios";
-import {useAuthContext} from "../context/AuthContext.jsx";
+import {useAuthContext} from "../../context/AuthContext.jsx";
 
 const ApplicationStatus = ({status, appId,setReload}) => {
     const [currStatus, setCurrStatus] = useState(status);

@@ -1,14 +1,14 @@
 import React, {useEffect, useMemo, useState} from 'react'
 import {useLocation} from "react-router-dom";
-import JobPost from "./JobPost.jsx";
-import JobPostCard from "../components/JobPostCard.jsx";
-import ResumePreview from "../components/ResumePreview.jsx";
-import BackButton from "../components/BackButton.jsx";
-import ApplicationStatus from "../components/ApplicationStatus.jsx";
-import authContext, {useAuthContext} from "../context/AuthContext.jsx";
+import JobPost from "../JobPost.jsx";
+import JobPostCard from "../../components/JobPostCard.jsx";
+import ResumePreview from "../../components/RecruiterComponents/ResumePreview.jsx";
+import BackButton from "../../components/BackButton.jsx";
+import ApplicationStatus from "../../components/RecruiterComponents/ApplicationStatus.jsx";
+import authContext, {useAuthContext} from "../../context/AuthContext.jsx";
 import axios from "axios";
-import {getApplicationById} from "../api-service/getApplicationById.js";
-import {getResumeById} from "../api-service/getResumeById.js";
+import {getApplicationById} from "../../api-service/getApplicationById.js";
+import {getResumeById} from "../../api-service/getResumeById.js";
 
 const ApplicationReview = () => {
     const {token} = useAuthContext();

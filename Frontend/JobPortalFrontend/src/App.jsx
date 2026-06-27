@@ -2,9 +2,9 @@ import './App.css'
 import {Route, Routes} from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import NavigationBar from "./components/NavigationBar.jsx";
-import AddJob from "./pages/AddJob.jsx";
+import AddJob from "./pages/RecruiterPages/AddJob.jsx";
 import Search from "./pages/Search.jsx";
-import UpdateAndDeleteJobPost from "./pages/UpdateAndDeleteJobPost.jsx";
+import UpdateAndDeleteJobPost from "./pages/RecruiterPages/UpdateAndDeleteJobPost.jsx";
 import JobContextProvider, {JobContext} from "./context/JobContext.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
@@ -13,11 +13,11 @@ import ValidationContextProvider from "./context/AuthContext.jsx";
 import JobPost from "./pages/JobPost.jsx";
 import AuthContextProvider from "./context/AuthContext.jsx";
 import HomeLayout from "./pages/HomeLayout.jsx";
-import AdminDashboard from "./pages/AdminDashboard.jsx";
+import AdminDashboard from "./pages/RecruiterPages/AdminDashboard.jsx";
 import UserDashboard from "./pages/UserDashboard.jsx";
-import JobPostedByAdmin from "./pages/JobPostedByAdmin.jsx";
-import Applications from "./pages/Applications.jsx";
-import ApplicationReview from "./pages/ApplicationReview.jsx";
+import JobPostedByAdmin from "./pages/RecruiterPages/JobPostedByAdmin.jsx";
+import Applications from "./pages/RecruiterPages/Applications.jsx";
+import ApplicationReview from "./pages/RecruiterPages/ApplicationReview.jsx";
 import Container from "./components/Container.jsx";
 import Profile from "./pages/Profile.jsx";
 

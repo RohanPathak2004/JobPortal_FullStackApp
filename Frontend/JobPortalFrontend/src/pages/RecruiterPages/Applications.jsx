@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
-import {useAuthContext} from "../context/AuthContext.jsx";
-import ApplicationCard from "../components/ApplicationCard.jsx";
-import {getApplications} from "../api-service/getApplications.js";
+import {useAuthContext} from "../../context/AuthContext.jsx";
+import ApplicationCard from "../../components/RecruiterComponents/ApplicationCard.jsx";
+import {getApplications} from "../../api-service/getApplications.js";
 
 const Applications = () => {
 

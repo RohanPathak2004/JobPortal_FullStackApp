@@ -1,8 +1,8 @@
 import React, {useContext, useState} from 'react'
 import {useNavigate} from "react-router-dom";
-import {JobContext} from "../context/JobContext.jsx";
-import {useAuthContext} from "../context/AuthContext.jsx";
-import {postJob} from "../api-service/postJob.js";
+import {JobContext} from "../../context/JobContext.jsx";
+import {useAuthContext} from "../../context/AuthContext.jsx";
+import {postJob} from "../../api-service/postJob.js";
 
 
 

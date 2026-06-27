@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react'
-import {useAuthContext} from "../context/AuthContext.jsx";
-import JobPostCard from "../components/JobPostCard.jsx";
+import {useAuthContext} from "../../context/AuthContext.jsx";
+import JobPostCard from "../../components/JobPostCard.jsx";
 import {Link, useNavigate} from "react-router-dom";
-import {getJobByAdmin} from "../api-service/getJobByAdmin.js";
+import {getJobByAdmin} from "../../api-service/getJobByAdmin.js";
 
 const JobPostedByAdmin = () => {
     // console.log('JobPostedByAdmin');

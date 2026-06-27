@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import {useAuthContext} from "../context/AuthContext.jsx";
-import ApplicationCardForCandidate from "../components/ApplicationCardForCandidate.jsx";
+import ApplicationCardForCandidate from "../components/CandidateComponents/ApplicationCardForCandidate.jsx";
 import {getCandidateApplications} from "../api-service/getCandidateApplications.js";
 
 const UserDashboard = () => {
