@@ -1,12 +1,12 @@
 package com.rohan.spring_boot_rest.model;
-
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+import java.util.Map;
 
-import java.util.List;
 
 @Data
 @Entity
@@ -16,24 +16,11 @@ public class Candidate {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer candidate_id;
-
     @OneToOne
     private User user;
-
-    @Lob
-    private byte[] resumeFile;
-
-    private String resumeFileName;
-
-    private String resumeFileType;
-
-    @Lob
-    private byte[] profilePicture;
-
     private String name;
-    private List<String> publicUrls;
+    @JdbcTypeCode(SqlTypes.JSON)
+    private Map<String,String> socialLinks;
     private String about;
-
-
     private Boolean isProfileComplete;
 }

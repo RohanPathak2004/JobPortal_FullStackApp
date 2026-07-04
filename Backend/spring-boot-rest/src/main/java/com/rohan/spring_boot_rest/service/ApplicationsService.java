@@ -18,6 +18,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ApplicationsService {
@@ -34,7 +35,7 @@ public class ApplicationsService {
         this.jobRepo = jobRepo;
     }
 
-    public void apply(String name, String email, int jobId, MultipartFile resumeFile) throws IOException {
+    public void apply(String name, String email, Long jobId, MultipartFile resumeFile) throws IOException {
         Applications apply = new Applications();
         JobPost job = jobRepo.findById(jobId).orElse(new JobPost());
         apply.setName(name);

@@ -26,7 +26,7 @@ public class Recruiter {
     private String name;
 
     private String companyName;
-
+    private String email;
     private String companyLogoUrl;
     private String companyLogoPublicId;
     private String companyUrl;

@@ -16,9 +16,8 @@ import java.security.Principal;
 import java.util.List;
 
 
-
 @RestController //(controller+response body)
-@CrossOrigin
+@CrossOrigin(value = "http://localhost:5173")
 public class JobRestController {
 
     private final JobService service;
@@ -41,19 +40,14 @@ public class JobRestController {
 
     //get job by id
     @GetMapping("jobPost/{postId}")
-    public ResponseEntity<?> getJob(@PathVariable("postId") int postId){
+    public ResponseEntity<?> getJob(@PathVariable("postId") Long postId){
         try{
             return ResponseEntity.ok(service.getJob(postId));
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }
-    //dummy values
-    @GetMapping("load")
-    public String load(){
-        service.load();
-        return "success";
-    }
+
 
 
     //RECRUITER ROUTES
@@ -63,11 +57,18 @@ public class JobRestController {
     @PreAuthorize("hasRole('RECRUITER')")
     @PutMapping(value = "/admin/profile",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> updateRecruiterProfile(@ModelAttribute RecruiterProfileDto recruiterProfileDto,Principal principal){
+        System.out.println(recruiterProfileDto.toString());
         try{
             return service.updateRecruiterProfile(recruiterProfileDto,principal);
         } catch (IOException e) {
             return ResponseEntity.internalServerError().body("file processing failed, please try again after few time");
         }
+    }
+
+    @PreAuthorize("hasRole('RECRUITER')")
+    @GetMapping("/admin/profile")
+    public ResponseEntity<RecruiterResponseDto> getRecruiterProfile(Principal principal){
+        return ResponseEntity.ok(service.getRecruiterProfile(principal));
     }
 
     @PreAuthorize("hasRole('RECRUITER')")
@@ -96,8 +97,8 @@ public class JobRestController {
     //create a new job post
     @PreAuthorize("hasRole('RECRUITER')")
     @PostMapping("jobPost") //posts job object into database
-    public ResponseEntity<String> addJob(@RequestBody JobPost post){
-        service.addJob(post);
+    public ResponseEntity<String> addJob(@RequestBody JobPostRequestDto jobPostRequestDto,Principal principal){
+        service.addJob(jobPostRequestDto,principal);
         return ResponseEntity.status(HttpStatus.CREATED).body("job posted Successfully");
     }
 
@@ -114,8 +115,8 @@ public class JobRestController {
     //deleting a job post
     @PreAuthorize("hasRole('RECRUITER')")
     @DeleteMapping("jobPost/{postId}")
-    public ResponseEntity deleteJob(@PathVariable("postId") Long id){
-        service.deleteJob(Math.toIntExact(id));
+    public ResponseEntity<?> deleteJob(@PathVariable("postId") Long id){
+        service.deleteJob(id);
         return ResponseEntity.ok("job post deleted Successfully");
     }
 
@@ -170,7 +171,7 @@ public class JobRestController {
 
     //candidate to apply on a job post
     @PostMapping("/apply")
-    public ResponseEntity<String> apply(@RequestParam String name, @RequestParam String email, @RequestParam int jobId, @RequestParam MultipartFile resumeFile)
+    public ResponseEntity<String> apply(@RequestParam String name, @RequestParam String email, @RequestParam Long jobId, @RequestParam MultipartFile resumeFile)
     {
 
         try{

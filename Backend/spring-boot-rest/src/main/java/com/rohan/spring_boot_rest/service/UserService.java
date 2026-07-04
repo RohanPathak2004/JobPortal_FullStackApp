@@ -42,6 +42,7 @@ public class UserService {
             System.out.println("inside the service of recruiter");
             Recruiter recruiter = new Recruiter();
             recruiter.setUser(savedUser);
+            recruiter.setEmail(savedUser.getEmail());
             recruiterRepo.save(recruiter);
         } else if (Objects.equals(savedUser.getAuthority(),"CANDIDATE")) {
             Recruiter recruiter = new Recruiter();
