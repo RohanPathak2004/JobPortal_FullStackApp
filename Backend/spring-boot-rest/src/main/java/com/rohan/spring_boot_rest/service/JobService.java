@@ -1,11 +1,10 @@
 package com.rohan.spring_boot_rest.service;
 
 
+import com.rohan.spring_boot_rest.Exception.JobPostNotFoundException;
+import com.rohan.spring_boot_rest.Exception.UnauthorizedResourceAccessException;
 import com.rohan.spring_boot_rest.Mapper.Mapper;
-import com.rohan.spring_boot_rest.dto.JobPostDto;
-import com.rohan.spring_boot_rest.dto.JobPostRequestDto;
-import com.rohan.spring_boot_rest.dto.RecruiterProfileDto;
-import com.rohan.spring_boot_rest.dto.RecruiterResponseDto;
+import com.rohan.spring_boot_rest.dto.*;
 import com.rohan.spring_boot_rest.model.JobPost;
 import com.rohan.spring_boot_rest.model.Recruiter;
 import com.rohan.spring_boot_rest.repo.JobRepo;
@@ -14,6 +13,9 @@ import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,6 +39,16 @@ public class JobService {
         this.cloudinaryService = cloudinaryService;
     }
 
+    private String getPrincipalName(){
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
+
+    private void checkIfPostExistAndBelongToUser(long postId){
+        String currentUserEmail = getPrincipalName();
+        String postEmail = jobRepo.getEmailFromId(postId);
+        if(postEmail == null) throw new JobPostNotFoundException("job post with id: "+postId+" not found");
+        if(!Objects.equals(currentUserEmail,postEmail)) throw new UnauthorizedResourceAccessException("Resource Not Found: "+postId);
+    }
 
     public void addJob(JobPostRequestDto jobPostRequestDto, Principal principal) {
         JobPost jobPost = new JobPost();
@@ -56,15 +68,16 @@ public class JobService {
     }
 
     public JobPostDto getJob(Long postId) {
-        Optional<JobPostDto> o = Optional.ofNullable(jobRepo.findJobById(postId));
-        return o.orElseThrow(() -> new EntityNotFoundException("job post not found"));
+        return jobRepo.findCompleteJobById(postId);
     }
 
     public void updateJob(JobPost job) {
+        checkIfPostExistAndBelongToUser(job.getPostId());
         jobRepo.save(job);
     }
 
     public void deleteJob(Long postId) {
+        checkIfPostExistAndBelongToUser(postId);
         jobRepo.deleteById(postId);
     }
 
@@ -78,7 +91,20 @@ public class JobService {
     }
 
 
+    public String changeJobPostStatus(JobPostStatusChangeDto jobPostStatusChangeDto, Principal principal) throws Exception{
+        long postId = jobPostStatusChangeDto.postId();
+        checkIfPostExistAndBelongToUser(postId);
+        boolean isExpire = jobPostStatusChangeDto.isExpire();
+        JobPost post = jobRepo.findById(postId).orElseThrow(() -> new JobPostNotFoundException("job post with post_id: "+postId+"not found"));
+        post.setIsExpire(isExpire);
+        jobRepo.save(post);
+        return "status changed successfully.";
+    }
+
+
     public ResponseEntity<String> updateRecruiterProfile(RecruiterProfileDto recruiterProfileDto, Principal principal) throws IOException {
+
+
 
         //required fields
         String name = recruiterProfileDto.name();

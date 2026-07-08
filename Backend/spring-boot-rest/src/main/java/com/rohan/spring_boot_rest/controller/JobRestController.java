@@ -48,7 +48,17 @@ public class JobRestController {
         }
     }
 
-
+    //job post status change
+    @PreAuthorize("hasRole('RECRUITER')")
+    @PatchMapping("/admin/job/status")
+    public ResponseEntity<String> changeJobPostStatus(@RequestBody JobPostStatusChangeDto jobPostStatusChangeDto, Principal principal) {
+        try{
+            String res = service.changeJobPostStatus(jobPostStatusChangeDto,principal);
+            return ResponseEntity.ok(res);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
     //RECRUITER ROUTES
 

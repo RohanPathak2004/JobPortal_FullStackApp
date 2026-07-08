@@ -36,6 +36,9 @@ public interface JobRepo extends JpaRepository<JobPost, Long> {
 
     @Query(value = " select j.* , " +
             "recruiter.company_name, recruiter.company_logo_url, recruiter.profile_picture_url, recruiter.company_url from job_post as j left join recruiter on j.email = recruiter.email where j.post_id = :id", nativeQuery = true)
-    JobPostDto findJobById(@Param("id") Long id);
+    JobPostDto findCompleteJobById(@Param("id") Long id);
+
+    @Query(value = "select job_post.email from job_post where job_post.post_id = :id",nativeQuery = true)
+    String getEmailFromId(@Param("id") long id);
 
 }
